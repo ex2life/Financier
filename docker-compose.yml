@@ -11,7 +11,18 @@ services:
       - app
     working_dir: ${APP_PATH_CONTAINER}
   app:
-    image: php:7.4.4-fpm-alpine
+    build: ./app
     volumes:
       - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
     working_dir: ${APP_PATH_CONTAINER}
+    links:
+      - database
+  database:
+    image: mysql/mysql-server:8.0.19-1.1.15
+    environment:
+      - "MYSQL_ROOT_PASSWORD=secret"
+      - "MYSQL_DATABASE=financier"
+    ports:
+      - "33061:3306"
+    volumes:
+      - ${DB_PATH_HOST}:/var/lib/mysql

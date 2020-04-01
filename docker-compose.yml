@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  web:
+    build: ./web
+    volumes:
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+    ports:
+      - "8080:80"
+    links:
+      - app
+  app:
+    build: ./app
+    volumes:
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}

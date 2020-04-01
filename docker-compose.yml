@@ -12,9 +12,11 @@ services:
     working_dir: ${APP_PATH_CONTAINER}
   app:
     build: ./app
+    container_name: financier_app
     volumes:
       - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
     working_dir: ${APP_PATH_CONTAINER}
+    user: www-data
     links:
       - database
   database:

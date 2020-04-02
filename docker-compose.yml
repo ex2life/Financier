@@ -40,3 +40,9 @@ services:
     working_dir: ${PHPMYADMIN_PATH_CONTAINER}
     links:
       - database:db
+  composer:
+    image: composer:latest
+    volumes:
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+    working_dir: ${APP_PATH_CONTAINER}
+    command: composer install

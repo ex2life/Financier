@@ -2,9 +2,10 @@ version: '3.7'
 services:
   web:
     image: nginx:1.17.9-alpine
+    container_name: financier_web
     volumes:
       - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
-      - ${PHPMYADMIN_PATH}:${PHPMYADMIN_WEB_PATH_CONTAINER}
+      - ${PHPMYADMIN_PATH}:${PHPMYADMIN_PATH_CONTAINER}
       - ${NGINX_CONFIG}:/etc/nginx/conf.d/default.conf
     ports:
       - "8080:80"
@@ -22,18 +23,20 @@ services:
     links:
       - database
   database:
-    image: mysql/mysql-server:8.0.19-1.1.15
+    image: mysql:8.0.19
+    container_name: financier_db
     environment:
-      - "MYSQL_ROOT_PASSWORD=secret"
       - "MYSQL_DATABASE=financier"
-    ports:
-      - "33061:3306"
+      - "MYSQL_ROOT_PASSWORD=rootpass"
+      - "MYSQL_USER=laravel"
+      - "MYSQL_PASSWORD=laravelpass"
     volumes:
       - ${DB_PATH_HOST}:/var/lib/mysql
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:fpm-alpine
+    container_name: financier_pma
     volumes:
-      - ${PHPMYADMIN_PATH}:${PHPMYADMIN_WEB_PATH_CONTAINER}
-    working_dir: ${PHPMYADMIN_WEB_PATH_CONTAINER}
+      - ${PHPMYADMIN_PATH}:${PHPMYADMIN_PATH_CONTAINER}
+    working_dir: ${PHPMYADMIN_PATH_CONTAINER}
     links:
       - database:db

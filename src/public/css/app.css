@@ -10866,19 +10866,34 @@ a.text-dark:focus {
   }
 
   .table-dark {
-    color: inherit;
+      color: inherit;
   }
 
-  .table-dark th,
-  .table-dark td,
-  .table-dark thead th,
-  .table-dark tbody + tbody {
-    border-color: #dee2e6;
-  }
+    .table-dark th,
+    .table-dark td,
+    .table-dark thead th,
+    .table-dark tbody + tbody {
+        border-color: #dee2e6;
+    }
 
-  .table .thead-dark th {
-    color: inherit;
-    border-color: #dee2e6;
-  }
+    .table .thead-dark th {
+        color: inherit;
+        border-color: #dee2e6;
+    }
+}
+
+body {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+body {
+    background-image: url(/images/bg.jpg);
+}
+
+.btn_margin {
+    margin-top: 20px;
 }
 

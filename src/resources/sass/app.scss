@@ -6,3 +6,22 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+//my style
+body {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+body {
+}
+
+body {
+    background-image: url(/images/bg.jpg);
+}
+
+.btn_margin {
+    margin-top: 20px;
+}

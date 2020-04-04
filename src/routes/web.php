@@ -17,6 +17,7 @@ Route::get('/', function () {
     return view('index');
 });
 
+//test windows
 
 Auth::routes();
 

@@ -10,4 +10,9 @@ class CalcController extends Controller
     {
         return view('calc.list');
     }
+
+    public function calc_input($type)
+    {
+        return view('calc.input', ['type' => $type]);
+    }
 }

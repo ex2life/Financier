@@ -19,5 +19,8 @@ Route::get('/', function () {
 })->name('index');
 
 Route::get('/calc', 'CalcController@calc_list')->name('calc_list');
+Route::get('/calc/annuit', 'CalcController@calc_input')->defaults('type', 'annuit')->name('calc_annuit');
+Route::get('/calc/differ', 'CalcController@calc_input')->defaults('type', 'differ')->name('calc_differ');
+Route::get('/calc/flex', 'CalcController@calc_input')->defaults('type', 'flex')->name('calc_flex');
 
 Route::get('/home', 'HomeController@index')->name('home');

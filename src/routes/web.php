@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
 
 Route::get('/', function () {
     return view('index');
-});
+})->name('index');
 
-
-Auth::routes();
+Route::get('/calc', 'CalcController@calc_list')->name('calc_list');
 
 Route::get('/home', 'HomeController@index')->name('home');

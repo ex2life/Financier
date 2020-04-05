@@ -5,17 +5,16 @@
         <header>
             <h1 class="text-center">ФИНАНСИСТ ОНЛАЙН</h1>
         </header>
-        <div class="row">
-            <a class="btn_margin btn btn-outline-dark btn-lg col-3 offset-md-9" href="./cred_calc/calc.html">Кредитный
+            <a class="btn_margin btn btn-light btn-lg col-12 col-md-4 offset-md-8" href="">Кредитный
                 калькулятор </a>
-            <a class="btn_margin btn btn-outline-dark btn-lg col-3 offset-md-9"
-               href="cred_limit/limit.html">Расчет суммы кредита</a>
-            <a class="btn_margin btn btn-outline-dark btn-lg col-3 offset-md-9"
+            <div class="w-100"></div>
+            <a class="btn_margin btn btn btn-light btn-lg col-12 col-md-4 offset-md-8"
+               href="">Расчет суммы кредита</a>
+            <a class="btn_margin btn btn-light btn-lg col-12 col-md-4 offset-md-8"
                href="#">Финансовый анализ</a>
-            <a class="btn_margin btn btn-outline-dark btn-lg col-3 offset-md-9"
+            <a class="btn_margin btn btn-light btn-lg col-12 col-md-4 offset-md-8"
                href="#">Управленческая отчетность</a>
-            <a class="btn_margin btn btn-outline-dark btn-lg col-3 offset-md-9"
+            <a class="btn_margin btn btn-light btn-lg col-12 col-md-4 offset-md-8"
                href="#">Анализ инвестиционных проектов</a>
-        </div>
     </div>
 @endsection

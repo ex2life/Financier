@@ -19,16 +19,16 @@ class CalcController extends Controller
 
     public function calc_to_html()
     {
-        $type_platezh = $_GET['type_platezh'];
-        $str_beg_date = "01." . $_GET['str_beg_date'];
-        $sum_kred = $_GET['sum_kred'];
-        $col_month = $_GET['col_month'];
-        $proc = $_GET['proc'];
+        $type_platezh = $_POST['type_platezh'];
+        $str_beg_date = "01." . $_POST['str_beg_date'];
+        $sum_kred = $_POST['sum_kred'];
+        $col_month = $_POST['col_month'];
+        $proc = $_POST['proc'];
 
         $arr_payments = array_fill(0, $col_month, 0);
         $n = 0;
         if ($type_platezh == 'flex') {
-            foreach ($_GET['flex_payment_schedule'] as $flex_payment) {
+            foreach ($_POST['flex_payment_schedule'] as $flex_payment) {
                 $arr_payments[$n] = round((float)$flex_payment, 2);
                 $n++;
             }
@@ -37,12 +37,11 @@ class CalcController extends Controller
         // Формируем массив с данными о платежах в каждом месяце
         $arr_all_platezh = $this->Payment_Schedule($type_platezh, $str_beg_date, $sum_kred, $col_month, $proc, $arr_payments);
 
-        if (isset($_GET['pdf'])) {
+        if (isset($_POST['pdf'])) {
             //Была нажата кнопка "Вывести в pdf" (name="pdf")
             //Формируем pdf-файл с расчетом платежа и открываем его в новой вкладке
             $this->PDF($str_beg_date, $sum_kred, $col_month, $proc, $arr_all_platezh);
-        }
-        else {
+        } else {
             // Формируем html-код для табличной части расчета платежей для всплывающего окна
             $platezhi_in_html = $this->Platezh_to_html($str_beg_date, $sum_kred, $col_month, $proc, $arr_all_platezh);
 
@@ -108,7 +107,8 @@ class CalcController extends Controller
 
 
         // Форма для печати в pdf и сохранения в Excel
-        $str_out .= "<form  target='_blank' method='get' action='/calc/calc_graf'>";
+        $str_out .= "<form  target='_blank' method='post' action='/calc/calc_graf'>";
+        $str_out .= "<input type=\"hidden\" name=\"_token\" value=\"".csrf_token()."\">";
         $str_out .= "<input type='hidden' name='type_platezh' value=$type_platezh>";
         $str_out .= "<input type='hidden' name='sum_kred' value=$sum_kred>";
         $str_out .= "<input type='hidden' name='str_beg_date' value=$str_beg_date>";
@@ -116,7 +116,7 @@ class CalcController extends Controller
         $str_out .= "<input type='hidden' name='proc' value=$proc>";
 
         if ($type_platezh == 'flex') {
-            foreach ($_GET['flex_payment_schedule'] as $flex_payment) {
+            foreach ($_POST['flex_payment_schedule'] as $flex_payment) {
                 $str_out .= "<input type='hidden' name='flex_payment_schedule[]' value=$flex_payment>";
             }
         }
@@ -260,15 +260,32 @@ class CalcController extends Controller
         return $arr_all_platezh;
     }
 
-
-
-   //---------------------------------------------------------------------
-// Сохранение графика платежей в pdf
-//---------------------------------------------------------------------
+    //---------------------------------------------------------------------
+    // Сохранение графика платежей в pdf
+    //---------------------------------------------------------------------
     public function PDF($str_beg_date, $sum_kred, $col_month, $proc, $arr_all_platezh)
     {
         $str_out = "<style>";
-        $str_out .= file_get_contents('css/pdf.css');
+        $str_out .= "
+            .Table {
+                border: 1px solid #1C6EA4;
+                background-color: #EEEEEE;
+                width: 100%;
+                text-align: left;
+                border-collapse: collapse;
+            }
+            td, th {
+                border: 1px solid #AAAAAA;
+                padding: 3px 2px;
+            }
+            .color1 {
+                background-color: #D0E4F5;
+            }
+            .platezh_table_header, .platezh_table_footer {
+                background-color: #1C6EA4;
+                color: #FFFFFF;
+            }
+            ";
         $str_out .= "</style>";
         $str_out .= "<p>Вид платежа: ";
         $type_platezh = $arr_all_platezh[0]['type_platezh'];
@@ -287,7 +304,7 @@ class CalcController extends Controller
         $str_out .= "<thead><tr class=\"platezh_table_header\"><th>N</th><th>Дата</th><th>Сумма платежа</th><th>Погашение основного долга</th><th>Погашение процентов</th><th>Остаток основного долга</th></tr></thead><tbody class=\"tbody\">";
 
         $total_platezh = $total_platezh_main_dolg = $total_platezh_proc = 0;
-        $color=false;
+        $color = false;
         foreach ($arr_all_platezh as $arr_platezh) {
             $str_platezh = number_format($arr_platezh['platezh'], 2, '.', ' ');
             $str_platezh_main_dolg = number_format($arr_platezh['platezh_main_dolg'], 2, '.', ' ');
@@ -295,11 +312,10 @@ class CalcController extends Controller
             $str_ostatok = number_format($arr_platezh['ostatok'], 2, '.', ' ');
             if ($color) {
                 $str_out .= "<tr class=\"color1\">";
-            }
-            else{
+            } else {
                 $str_out .= "<tr>";
             }
-            $color=!$color;
+            $color = !$color;
             $str_out .= "<td class=\"tbody\">" . $arr_platezh['nomer'] . "</td><td>" . $arr_platezh['date'] . "</td><td>" . $str_platezh . "</td>";
             $str_out .= "<td>" . $str_platezh_main_dolg . "</td><td>" . $str_platezh_proc . "</td><td>" . $str_ostatok . "</td></tr>";
             $total_platezh += $arr_platezh['platezh'];
@@ -313,11 +329,11 @@ class CalcController extends Controller
         $str_out .= "<td>$str_total_platezh_proc</td><td></td></tr>";
         $str_out .= "</tbody></table>\n";
 
-        PDF::SetFont('dejavusans','',30);
+        PDF::SetFont('dejavusans', '', 30);
         PDF::AddPage();
         PDF::SetTitle('Финансист Онлайн');
         PDF::Cell(0, 20, 'Финансист Онлайн', 0, false, 'C', 0, '', 0, false, 'T', 'M');
-        PDF::SetFont('dejavusans','',14);
+        PDF::SetFont('dejavusans', '', 14);
         PDF::Ln();
         PDF::writeHTML($str_out, true, false, true, false, '');
         PDF::Output('hello_world.pdf');

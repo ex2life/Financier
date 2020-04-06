@@ -71,7 +71,7 @@ $(document).ready(function () {
         //Проверяем корректность значений в полях формы
         if (ValidFormPlatezhParam()) {
             var data = $("#frmPlatezhParam :input").serialize();
-            $.get($("#frmPlatezhParam").attr('action'), data, function (html_reply) {
+            $.post($("#frmPlatezhParam").attr('action'), data, function (html_reply) {
                     $('#text-popup').html(html_reply);
                     $('#phpModal').modal('show');
                 }

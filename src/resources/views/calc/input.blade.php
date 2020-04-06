@@ -3,7 +3,7 @@
 @section('content')
     <div class="container" id="calc_app">
         <div class="card mt-md-5 opacitybg">
-            <form action="{{ route('calc_graf') }}" id="frmPlatezhParam" method="get">
+            <form action="{{ route('calc_graf') }}" id="frmPlatezhParam" method="post">
                 @csrf
                 <div class="card-header">
                     <h2 class="text-center">{{($type == 'annuit') ? 'АННУИТЕТНЫЙ ПЛАТЕЖ' : (($type == 'differ') ? 'ДИФФЕРЕНЦИРОВАННЫЙ ПЛАТЕЖ' : 'ГИБКИЙ ГРАФИК ПОГАШЕНИЯ')}}</h2>

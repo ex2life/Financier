@@ -3,7 +3,8 @@
 @section('content')
     <div class="container" id="calc_app">
         <div class="card mt-5 opacitybg">
-            <form action="" id="frmPlatezhParam" method="post">
+            <form action="{{ route('calc_graf') }}" id="frmPlatezhParam" method="get">
+                @csrf
                 <div class="card-header">
                     <h2 class="text-center">{{($type == 'annuit') ? 'АННУИТЕТНЫЙ ПЛАТЕЖ' : (($type == 'differ') ? 'ДИФФЕРЕНЦИРОВАННЫЙ ПЛАТЕЖ' : 'ГИБКИЙ ГРАФИК ПОГАШЕНИЯ')}}</h2>
                 </div>
@@ -59,18 +60,40 @@
                 <div class="card-footer">
                     <div class="row text-right">
                         <div class="col-12 col-md-6 offset-md-6">
-                            <button type="button" class="btn btn-primary" type="submit" id="btnShowPaymentSchedule">Рассчитать график</button>
-                            <button type="button" class="btn btn-light" href="{{ route('calc_list') }}">Другой тип платежа</button>
+                            <button type="button" class="btn btn-primary" type="submit" id="btnShowPaymentSchedule">
+                                Рассчитать график
+                            </button>
+                            <a type="button" class="btn btn-secondary" href="{{ route('calc_list') }}">Другой тип
+                                платежа</a>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
-
-        <!-- Контейнер для вывода графика платежей в magnific-popup -->
-        <div id="text-popup" class="white-popup mfp-hide">
+        <div id="myModal" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div id="text-popup" class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- Scripts -->
     <script src="{{ asset('js/calc_app.js') }}" defer></script>
+    <script type="text/javascript" src="/js/jquery-1.12.2.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="/js/additional-methods.min.js"></script>
+    <script type="text/javascript" src="/js/magnific-popup.js"></script>
+    <script type="text/javascript" src="/js/cred_calc.js"></script>
 @endsection

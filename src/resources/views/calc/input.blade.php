@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container" id="calc_app">
-        <div class="card mt-5 opacitybg">
+        <div class="card mt-md-5 opacitybg">
             <form action="{{ route('calc_graf') }}" id="frmPlatezhParam" method="get">
                 @csrf
                 <div class="card-header">
@@ -59,41 +59,34 @@
                 </div>
                 <div class="card-footer">
                     <div class="row text-right">
-                        <div class="col-12 col-md-6 offset-md-6">
+                        <div class="col-12">
                             <button type="button" class="btn btn-primary" type="submit" id="btnShowPaymentSchedule">
                                 Рассчитать график
                             </button>
-                            <a type="button" class="btn btn-secondary" href="{{ route('calc_list') }}">Другой тип
-                                платежа</a>
+                            <a type="button" class="btn btn-secondary" href="{{ route('calc_list') }}">Назад</a>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
-        <div id="myModal" class="modal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div id="text-popup" class="modal-body">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
+    </div>
+    <div id="phpModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content"><div class="modal-header">
+                    <h5 class="modal-title">График платежей по кредиту</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="text-popup" class="modal-body">
+
                 </div>
             </div>
         </div>
     </div>
     <!-- Scripts -->
     <script src="{{ asset('js/calc_app.js') }}" defer></script>
-    <script type="text/javascript" src="/js/jquery-1.12.2.min.js"></script>
-    <script type="text/javascript" src="/js/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="/js/additional-methods.min.js"></script>
-    <script type="text/javascript" src="/js/magnific-popup.js"></script>
-    <script type="text/javascript" src="/js/cred_calc.js"></script>
+    <script src="/js/jquery.validate.min.js" defer></script>
+    <script type="text/javascript" src="/js/additional-methods.min.js" defer></script>
+    <script type="text/javascript" src="/js/cred_calc.js" defer></script>
 @endsection

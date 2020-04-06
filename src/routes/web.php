@@ -23,5 +23,6 @@ Route::get('/calc/annuit', 'CalcController@calc_input')->defaults('type', 'annui
 Route::get('/calc/differ', 'CalcController@calc_input')->defaults('type', 'differ')->name('calc_differ');
 Route::get('/calc/flex', 'CalcController@calc_input')->defaults('type', 'flex')->name('calc_flex');
 Route::get('/calc/calc_graf', 'CalcController@calc_to_html')->name('calc_graf');
+Route::get('/calc/pdf', 'CalcController@PDF');
 
 Route::get('/home', 'HomeController@index')->name('home');

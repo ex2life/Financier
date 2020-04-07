@@ -9,17 +9,27 @@ use \PhpOffice\PhpSpreadsheet\IOFactory;
 
 class CalcController extends Controller
 {
+    //---------------------------------------------------------------------
+    // Страница для выбора типа платежей
+    //---------------------------------------------------------------------
     public function calc_list()
     {
         return view('calc.list');
     }
 
+    //---------------------------------------------------------------------
+    // Страница для ввода данных о кредите
+    //---------------------------------------------------------------------
     public function calc_input($type)
     {
         return view('calc.input', ['type' => $type]);
     }
 
-    public function calc_to_html()
+
+
+    // Расчет графика платежей по кредиту согласно полученным входным параметрам и
+    // вывод этого графика в требуемом формате (html для всплывающего окна, pdf-файл, xls-файл)
+    public function calc()
     {
         $type_platezh = $_POST['type_platezh'];
         $str_beg_date = "01." . $_POST['str_beg_date'];
@@ -43,13 +53,11 @@ class CalcController extends Controller
             //Была нажата кнопка "Вывести в pdf" (name="pdf")
             //Формируем pdf-файл с расчетом платежа и открываем его в новой вкладке
             $this->PDF($str_beg_date, $sum_kred, $col_month, $proc, $arr_all_platezh);
-        }
-        elseif (isset($_POST['xls'])) {
+        } elseif (isset($_POST['xls'])) {
             //Была нажата кнопка "Сохранить в xls" (name="xls")
             //Формируем xls-файл с расчетом платежа и открываем его в новой вкладке
             $this->XLS($str_beg_date, $sum_kred, $col_month, $proc, $arr_all_platezh);
-        }
-        else {
+        } else {
             // Формируем html-код для табличной части расчета платежей для всплывающего окна
             $platezhi_in_html = $this->Platezh_to_html($str_beg_date, $sum_kred, $col_month, $proc, $arr_all_platezh);
 
@@ -57,87 +65,6 @@ class CalcController extends Controller
             echo $platezhi_in_html;
         }
     }
-
-
-
-
-
-    /*
-Функции для вывода рассчитанного графика платежей в разные форматы:
-   Platezh_to_html - возвращает html-код для отображения во всплывающем окне
-   PDF             - формирует файл Grafik.pdf
-   XLS             - формирует файл Grafik.xls
-*/
-
-
-//---------------------------------------------------------------------
-// Формирование html-кода для графика платежей
-//---------------------------------------------------------------------
-    public function Platezh_to_html($str_beg_date, $sum_kred, $col_month, $proc, $arr_all_platezh)
-    {
-        $type_platezh = $arr_all_platezh[0]['type_platezh'];
-
-        $str_out = "<p>Вид платежа: ";
-        if ($type_platezh == 'annuit')
-            $str_out .= "<strong>Аннуитетный платеж</strong></p>";
-        elseif ($type_platezh == 'differ')
-            $str_out .= "<strong>Дифференцированный платеж</strong></p>";
-        elseif ($type_platezh == 'flex')
-            $str_out .= "<strong>Гибкий платеж</strong></p>";
-        $str_sum_kred = number_format($sum_kred, 2, '.', ' ');
-        $str_proc = number_format($proc, 2, '.', ' ');
-        $str_out .= "<p>Сумма кредита: <strong>$str_sum_kred</strong> руб.<br>";
-        $str_out .= "Процентная ставка: <strong>$str_proc</strong> %<br>";
-        $str_out .= "Срок кредита (мес): <strong>$col_month</strong> </p>";
-
-        $str_out .= "<table class=\"platezh_table\">\n";
-        $str_out .= "<tr class=\"platezh_table_header\"><th>N</th><th>Дата</th><th>Сумма платежа</th><th>Погашение основного долга</th><th>Погашение процентов</th><th>Остаток основного долга</th></tr>";
-
-        $total_platezh = $total_platezh_main_dolg = $total_platezh_proc = 0;
-
-        foreach ($arr_all_platezh as $arr_platezh) {
-            $str_platezh = number_format($arr_platezh['platezh'], 2, '.', ' ');
-            $str_platezh_main_dolg = number_format($arr_platezh['platezh_main_dolg'], 2, '.', ' ');
-            $str_platezh_proc = number_format($arr_platezh['platezh_proc'], 2, '.', ' ');
-            $str_ostatok = number_format($arr_platezh['ostatok'], 2, '.', ' ');
-            $str_out .= "<tr><td>" . $arr_platezh['nomer'] . "</td><td>" . $arr_platezh['date'] . "</td><td>" . $str_platezh . "</td>";
-            $str_out .= "<td>" . $str_platezh_main_dolg . "</td><td>" . $str_platezh_proc . "</td><td>" . $str_ostatok . "</td></tr>";
-            $total_platezh += $arr_platezh['platezh'];
-            $total_platezh_main_dolg += $arr_platezh['platezh_main_dolg'];
-            $total_platezh_proc += $arr_platezh['platezh_proc'];
-        }
-        $str_total_platezh = number_format($total_platezh, 2, '.', ' ');
-        $str_total_platezh_main_dolg = number_format($total_platezh_main_dolg, 2, '.', ' ');
-        $str_total_platezh_proc = number_format($total_platezh_proc, 2, '.', ' ');
-        $str_out .= "<tr class=\"platezh_table_footer\"><td></td><td>Итого</td><td>$str_total_platezh</td><td>$str_total_platezh_main_dolg</td>";
-        $str_out .= "<td>$str_total_platezh_proc</td><td></td></tr>";
-        $str_out .= "</table>\n";
-
-
-        // Форма для печати в pdf и сохранения в Excel
-        $str_out .= "<form  target='_blank' method='post' action='/calc/calc_graf'>";
-        $str_out .= "<input type=\"hidden\" name=\"_token\" value=\"".csrf_token()."\">";
-        $str_out .= "<input type='hidden' name='type_platezh' value=$type_platezh>";
-        $str_out .= "<input type='hidden' name='sum_kred' value=$sum_kred>";
-        $str_out .= "<input type='hidden' name='str_beg_date' value=$str_beg_date>";
-        $str_out .= "<input type='hidden' name='col_month' value=$col_month>";
-        $str_out .= "<input type='hidden' name='proc' value=$proc>";
-
-        if ($type_platezh == 'flex') {
-            foreach ($_POST['flex_payment_schedule'] as $flex_payment) {
-                $str_out .= "<input type='hidden' name='flex_payment_schedule[]' value=$flex_payment>";
-            }
-        }
-        $str_out .= '<input class="btn btn-link" type="submit" id="btnOutToPDF" name="pdf" value="Вывести в pdf">';
-        $str_out .= '<input class="btn btn-link" type="submit" id="btnSaveToXLS" name="xls" value="Сохранить в xls">';
-        $str_out .= '</form>';
-
-        return $str_out;
-    }
-
-
-    //функции для расчета графика платежей по разным схемам
-
 
     //---------------------------------------------------------------------
     // Добавление одного или нескольких календарных месяцев к TIMESTAMP
@@ -175,10 +102,10 @@ class CalcController extends Controller
     }
 
 
-//---------------------------------------------------------------------
-// Расчет графика платежей по разным схемам.
-// Возвращает массив с типом платежа, датами и суммами платежей.
-//---------------------------------------------------------------------
+    //---------------------------------------------------------------------
+    // Расчет графика платежей по разным схемам.
+    // Возвращает массив с типом платежа, датами и суммами платежей.
+    //---------------------------------------------------------------------
     function Payment_Schedule($type_platezh, $str_beg_date, $sum_kred, $col_month, $proc, $arr_payments)
     {
         /*
@@ -266,6 +193,78 @@ class CalcController extends Controller
         }
 
         return $arr_all_platezh;
+    }
+
+    /*
+    Функции для вывода рассчитанного графика платежей в разные форматы:
+       Platezh_to_html - возвращает html-код для отображения во всплывающем окне
+       PDF             - формирует файл Grafik.pdf
+       XLS             - формирует файл Grafik.xls
+    */
+
+    //---------------------------------------------------------------------
+    // Формирование html-кода для графика платежей
+    //---------------------------------------------------------------------
+    public function Platezh_to_html($str_beg_date, $sum_kred, $col_month, $proc, $arr_all_platezh)
+    {
+        $type_platezh = $arr_all_platezh[0]['type_platezh'];
+
+        $str_out = "<p>Вид платежа: ";
+        if ($type_platezh == 'annuit')
+            $str_out .= "<strong>Аннуитетный платеж</strong></p>";
+        elseif ($type_platezh == 'differ')
+            $str_out .= "<strong>Дифференцированный платеж</strong></p>";
+        elseif ($type_platezh == 'flex')
+            $str_out .= "<strong>Гибкий платеж</strong></p>";
+        $str_sum_kred = number_format($sum_kred, 2, '.', ' ');
+        $str_proc = number_format($proc, 2, '.', ' ');
+        $str_out .= "<p>Сумма кредита: <strong>$str_sum_kred</strong> руб.<br>";
+        $str_out .= "Процентная ставка: <strong>$str_proc</strong> %<br>";
+        $str_out .= "Срок кредита (мес): <strong>$col_month</strong> </p>";
+
+        $str_out .= "<table class=\"platezh_table\">\n";
+        $str_out .= "<tr class=\"platezh_table_header\"><th>N</th><th>Дата</th><th>Сумма платежа</th><th>Погашение основного долга</th><th>Погашение процентов</th><th>Остаток основного долга</th></tr>";
+
+        $total_platezh = $total_platezh_main_dolg = $total_platezh_proc = 0;
+
+        foreach ($arr_all_platezh as $arr_platezh) {
+            $str_platezh = number_format($arr_platezh['platezh'], 2, '.', ' ');
+            $str_platezh_main_dolg = number_format($arr_platezh['platezh_main_dolg'], 2, '.', ' ');
+            $str_platezh_proc = number_format($arr_platezh['platezh_proc'], 2, '.', ' ');
+            $str_ostatok = number_format($arr_platezh['ostatok'], 2, '.', ' ');
+            $str_out .= "<tr><td>" . $arr_platezh['nomer'] . "</td><td>" . $arr_platezh['date'] . "</td><td>" . $str_platezh . "</td>";
+            $str_out .= "<td>" . $str_platezh_main_dolg . "</td><td>" . $str_platezh_proc . "</td><td>" . $str_ostatok . "</td></tr>";
+            $total_platezh += $arr_platezh['platezh'];
+            $total_platezh_main_dolg += $arr_platezh['platezh_main_dolg'];
+            $total_platezh_proc += $arr_platezh['platezh_proc'];
+        }
+        $str_total_platezh = number_format($total_platezh, 2, '.', ' ');
+        $str_total_platezh_main_dolg = number_format($total_platezh_main_dolg, 2, '.', ' ');
+        $str_total_platezh_proc = number_format($total_platezh_proc, 2, '.', ' ');
+        $str_out .= "<tr class=\"platezh_table_footer\"><td></td><td>Итого</td><td>$str_total_platezh</td><td>$str_total_platezh_main_dolg</td>";
+        $str_out .= "<td>$str_total_platezh_proc</td><td></td></tr>";
+        $str_out .= "</table>\n";
+
+
+        // Форма для печати в pdf и сохранения в Excel
+        $str_out .= "<form  target='_blank' method='post' action='/calc/calc_graf'>";
+        $str_out .= "<input type=\"hidden\" name=\"_token\" value=\"" . csrf_token() . "\">";
+        $str_out .= "<input type='hidden' name='type_platezh' value=$type_platezh>";
+        $str_out .= "<input type='hidden' name='sum_kred' value=$sum_kred>";
+        $str_out .= "<input type='hidden' name='str_beg_date' value=$str_beg_date>";
+        $str_out .= "<input type='hidden' name='col_month' value=$col_month>";
+        $str_out .= "<input type='hidden' name='proc' value=$proc>";
+
+        if ($type_platezh == 'flex') {
+            foreach ($_POST['flex_payment_schedule'] as $flex_payment) {
+                $str_out .= "<input type='hidden' name='flex_payment_schedule[]' value=$flex_payment>";
+            }
+        }
+        $str_out .= '<input class="btn btn-link" type="submit" id="btnOutToPDF" name="pdf" value="Вывести в pdf">';
+        $str_out .= '<input class="btn btn-link" type="submit" id="btnSaveToXLS" name="xls" value="Сохранить в xls">';
+        $str_out .= '</form>';
+
+        return $str_out;
     }
 
     //---------------------------------------------------------------------
@@ -377,23 +376,23 @@ class CalcController extends Controller
         $sheet->setCellValue("A1", $str_out);
         // Объединяем ячейки
         $sheet->mergeCells('A1:F1');
-        $str_out="Сумма кредита: ";
+        $str_out = "Сумма кредита: ";
         $str_sum_kred = number_format($sum_kred, 2, '.', ' ');
         $str_out .= $str_sum_kred;
         // Вставляем текст в ячейку A2
         $sheet->setCellValue("A2", $str_out);
         // Объединяем ячейки
         $sheet->mergeCells('A2:F2');
-        $str_out="Процентная ставка: ";
+        $str_out = "Процентная ставка: ";
         $str_proc = number_format($proc, 2, '.', ' ');
         $str_out .= $str_proc;
         // Вставляем текст в ячейку A3
         $sheet->setCellValue("A3", $str_out);
         // Объединяем ячейки
         $sheet->mergeCells('A3:F3');
-        $str_out="Срок кредита: ";
+        $str_out = "Срок кредита: ";
         $str_out .= $col_month;
-        $str_out .=" мес.";
+        $str_out .= " мес.";
         // Вставляем текст в ячейку A4
         $sheet->setCellValue("A4", $str_out);
         // Объединяем ячейки
@@ -413,18 +412,18 @@ class CalcController extends Controller
         //$sheet->getStyle('A1')->getAlignment()->setHorizontal(
         // \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
         //Выводим график
-        $stroka=6;
-        $sheet->setCellValueByColumnAndRow(0, $stroka-1, "N");
-        $sheet->setCellValueByColumnAndRow(1, $stroka-1, "Дата");
-        $sheet->setCellValueByColumnAndRow(2, $stroka-1, "Сумма платежа");
-        $sheet->setCellValueByColumnAndRow(3, $stroka-1, "Погашение основного долга");
-        $sheet->setCellValueByColumnAndRow(4, $stroka-1, "Погашение процентов");
-        $sheet->setCellValueByColumnAndRow(5, $stroka-1, "Остаток основного долга");
+        $stroka = 6;
+        $sheet->setCellValueByColumnAndRow(0, $stroka - 1, "N");
+        $sheet->setCellValueByColumnAndRow(1, $stroka - 1, "Дата");
+        $sheet->setCellValueByColumnAndRow(2, $stroka - 1, "Сумма платежа");
+        $sheet->setCellValueByColumnAndRow(3, $stroka - 1, "Погашение основного долга");
+        $sheet->setCellValueByColumnAndRow(4, $stroka - 1, "Погашение процентов");
+        $sheet->setCellValueByColumnAndRow(5, $stroka - 1, "Остаток основного долга");
         //$sheet->getRowDimension($stroka-1)->setRowHeight(-1);
         //Автовысота шапки таблицы
         $max_col = $sheet->getHighestColumn();
         for ($col = 'A'; $col <= $max_col; $col++) {
-            $stroka1=$stroka-1;
+            $stroka1 = $stroka - 1;
             // $sheet->getStyle($col.$stroka1)->getAlignment()->setWrapText(true);
             // $sheet->getColumnDimension($col)->setAutoSize(true);
         }
@@ -454,12 +453,12 @@ class CalcController extends Controller
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
         // Выводим HTTP-заголовки
-        header ( "Expires: Mon, 1 Apr 1974 05:00:00 GMT" );
-        header ( "Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT" );
-        header ( "Cache-Control: no-cache, must-revalidate" );
-        header ( "Pragma: no-cache" );
-        header ( "Content-type: application/vnd.ms-excel" );
-        header ( "Content-Disposition: attachment; filename=Grafik.xls" );
+        header("Expires: Mon, 1 Apr 1974 05:00:00 GMT");
+        header("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
+        header("Cache-Control: no-cache, must-revalidate");
+        header("Pragma: no-cache");
+        header("Content-type: application/vnd.ms-excel");
+        header("Content-Disposition: attachment; filename=Grafik.xls");
 
         // Выводим содержимое файла
         $objWriter = new \PhpOffice\PhpSpreadsheet\Writer\Xls($xls);

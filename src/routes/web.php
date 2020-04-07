@@ -14,14 +14,23 @@ use Illuminate\Support\Facades\Route;
 */
 Auth::routes();
 
+//Домашняя страница
 Route::get('/', function () {
     return view('index');
 })->name('index');
 
+//Страница для выбора типа платежей
 Route::get('/calc', 'CalcController@calc_list')->name('calc_list');
+//Страница для ввода данных о кредите с ануитетной схемой платежей
 Route::get('/calc/annuit', 'CalcController@calc_input')->defaults('type', 'annuit')->name('calc_annuit');
+//Страница для ввода данных о кредите с дифференцированной схемой платежей
 Route::get('/calc/differ', 'CalcController@calc_input')->defaults('type', 'differ')->name('calc_differ');
+//Страница для ввода данных о кредите с гибкой схемой платежей
 Route::get('/calc/flex', 'CalcController@calc_input')->defaults('type', 'flex')->name('calc_flex');
-Route::POST('/calc/calc_graf', 'CalcController@calc_to_html')->name('calc_graf');
+//Расчет графика платежей в требуемом формате (html для всплывающего окна, pdf-файл, xls-файл)
+Route::post('/calc/calc_graf', 'CalcController@calc')->name('calc_graf');
 
+
+
+//deprecated
 Route::get('/home', 'HomeController@index')->name('home');

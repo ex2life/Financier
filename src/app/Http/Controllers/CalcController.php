@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use PDF;
+use PHPExcel;
+use PHPExcel_IOFactory;
 
 class CalcController extends Controller
 {
@@ -41,7 +43,13 @@ class CalcController extends Controller
             //Была нажата кнопка "Вывести в pdf" (name="pdf")
             //Формируем pdf-файл с расчетом платежа и открываем его в новой вкладке
             $this->PDF($str_beg_date, $sum_kred, $col_month, $proc, $arr_all_platezh);
-        } else {
+        }
+        elseif (isset($_POST['xls'])) {
+            //Была нажата кнопка "Сохранить в xls" (name="xls")
+            //Формируем xls-файл с расчетом платежа и открываем его в новой вкладке
+            $this->XLS($str_beg_date, $sum_kred, $col_month, $proc, $arr_all_platezh);
+        }
+        else {
             // Формируем html-код для табличной части расчета платежей для всплывающего окна
             $platezhi_in_html = $this->Platezh_to_html($str_beg_date, $sum_kred, $col_month, $proc, $arr_all_platezh);
 
@@ -338,5 +346,123 @@ class CalcController extends Controller
         PDF::writeHTML($str_out, true, false, true, false, '');
         PDF::Output('hello_world.pdf');
 
+    }
+
+
+    //---------------------------------------------------------------------
+    // Сохранение графика в Excel
+    //---------------------------------------------------------------------
+    public function XLS($str_beg_date, $sum_kred, $col_month, $proc, $arr_all_platezh)
+    {
+
+
+        // Создаем объект класса PHPExcel
+        $xls = new PHPExcel();
+        // Устанавливаем индекс активного листа
+        $xls->setActiveSheetIndex(0);
+        // Получаем активный лист
+        $sheet = $xls->getActiveSheet();
+        // Подписываем лист
+        $sheet->setTitle('График платежей');
+        $type_platezh = $arr_all_platezh[0]['type_platezh'];
+
+        $str_out = "Вид платежа: ";
+        if ($type_platezh == 'annuit')
+            $str_out .= "Аннуитетный платеж";
+        elseif ($type_platezh == 'differ')
+            $str_out .= "Дифференцированный платеж";
+        elseif ($type_platezh == 'flex')
+            $str_out .= "Гибкий платеж";
+        // Вставляем текст в ячейку A1
+        $sheet->setCellValue("A1", $str_out);
+        // Объединяем ячейки
+        $sheet->mergeCells('A1:F1');
+        $str_out="Сумма кредита: ";
+        $str_sum_kred = number_format($sum_kred, 2, '.', ' ');
+        $str_out .= $str_sum_kred;
+        // Вставляем текст в ячейку A2
+        $sheet->setCellValue("A2", $str_out);
+        // Объединяем ячейки
+        $sheet->mergeCells('A2:F2');
+        $str_out="Процентная ставка: ";
+        $str_proc = number_format($proc, 2, '.', ' ');
+        $str_out .= $str_proc;
+        // Вставляем текст в ячейку A3
+        $sheet->setCellValue("A3", $str_out);
+        // Объединяем ячейки
+        $sheet->mergeCells('A3:F3');
+        $str_out="Срок кредита: ";
+        $str_out .= $col_month;
+        $str_out .=" мес.";
+        // Вставляем текст в ячейку A4
+        $sheet->setCellValue("A4", $str_out);
+        // Объединяем ячейки
+        $sheet->mergeCells('A4:F4');
+
+
+        //$str_out .= "Процентная ставка: <strong>$str_proc</strong> %<br>";
+        //$str_out .= "Срок кредита (мес): <strong>$col_month</strong> </p>";
+        $sheet->getStyle('A1')->getFill()->setFillType(
+            PHPExcel_Style_Fill::FILL_SOLID);
+        $sheet->getStyle('A1')->getFill()->getStartColor()->setRGB('EEEEEE');
+
+        // Объединяем ячейки
+        $sheet->mergeCells('A1:F1');
+
+        // Выравнивание текста
+        //$sheet->getStyle('A1')->getAlignment()->setHorizontal(
+        // PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        //Выводим график
+        $stroka=6;
+        $sheet->setCellValueByColumnAndRow(0, $stroka-1, "N");
+        $sheet->setCellValueByColumnAndRow(1, $stroka-1, "Дата");
+        $sheet->setCellValueByColumnAndRow(2, $stroka-1, "Сумма платежа");
+        $sheet->setCellValueByColumnAndRow(3, $stroka-1, "Погашение основного долга");
+        $sheet->setCellValueByColumnAndRow(4, $stroka-1, "Погашение процентов");
+        $sheet->setCellValueByColumnAndRow(5, $stroka-1, "Остаток основного долга");
+        //$sheet->getRowDimension($stroka-1)->setRowHeight(-1);
+        //Автовысота шапки таблицы
+        $max_col = $sheet->getHighestColumn();
+        for ($col = 'A'; $col <= $max_col; $col++) {
+            $stroka1=$stroka-1;
+            // $sheet->getStyle($col.$stroka1)->getAlignment()->setWrapText(true);
+            // $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        $total_platezh = $total_platezh_main_dolg = $total_platezh_proc = 0;
+
+        foreach ($arr_all_platezh as $arr_platezh) {
+            $sheet->setCellValueByColumnAndRow(0, $stroka, $arr_platezh['nomer']);
+            $sheet->setCellValueByColumnAndRow(1, $stroka, " " . $arr_platezh['date']);
+            $sheet->setCellValueByColumnAndRow(2, $stroka, $arr_platezh['platezh']);
+            $sheet->setCellValueByColumnAndRow(3, $stroka, $arr_platezh['platezh_main_dolg']);
+            $sheet->setCellValueByColumnAndRow(4, $stroka, $arr_platezh['platezh_proc']);
+            $sheet->setCellValueByColumnAndRow(5, $stroka, $arr_platezh['ostatok']);
+            $total_platezh += $arr_platezh['platezh'];
+            $total_platezh_main_dolg += $arr_platezh['platezh_main_dolg'];
+            $total_platezh_proc += $arr_platezh['platezh_proc'];
+            $stroka++;
+        }
+        $sheet->setCellValueByColumnAndRow(1, $stroka, "Итого:");
+        $sheet->setCellValueByColumnAndRow(2, $stroka, $total_platezh);
+        $sheet->setCellValueByColumnAndRow(3, $stroka, $total_platezh_main_dolg);
+        $sheet->setCellValueByColumnAndRow(4, $stroka, $total_platezh_proc);
+        // определение максимальных размеров документа
+        $max_col = $sheet->getHighestColumn();
+        /* автоширина */
+        for ($col = 'A'; $col <= $max_col; $col++) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+        // Выводим HTTP-заголовки
+        header ( "Expires: Mon, 1 Apr 1974 05:00:00 GMT" );
+        header ( "Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT" );
+        header ( "Cache-Control: no-cache, must-revalidate" );
+        header ( "Pragma: no-cache" );
+        header ( "Content-type: application/vnd.ms-excel" );
+        header ( "Content-Disposition: attachment; filename=Grafik.xls" );
+
+        // Выводим содержимое файла
+        $objWriter = new PHPExcel_Writer_Excel5($xls);
+        $objWriter->save('php://output');
     }
 }

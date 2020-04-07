@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use PDF;
-use PHPExcel;
-use PHPExcel_IOFactory;
+use \PhpOffice\PhpSpreadsheet\Spreadsheet;
+use \PhpOffice\PhpSpreadsheet\IOFactory;
 
 class CalcController extends Controller
 {
@@ -356,8 +356,8 @@ class CalcController extends Controller
     {
 
 
-        // Создаем объект класса PHPExcel
-        $xls = new PHPExcel();
+        // Создаем объект класса \PhpOffice\PhpSpreadsheet\Spreadsheet
+        $xls = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
         // Устанавливаем индекс активного листа
         $xls->setActiveSheetIndex(0);
         // Получаем активный лист
@@ -403,7 +403,7 @@ class CalcController extends Controller
         //$str_out .= "Процентная ставка: <strong>$str_proc</strong> %<br>";
         //$str_out .= "Срок кредита (мес): <strong>$col_month</strong> </p>";
         $sheet->getStyle('A1')->getFill()->setFillType(
-            PHPExcel_Style_Fill::FILL_SOLID);
+            \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
         $sheet->getStyle('A1')->getFill()->getStartColor()->setRGB('EEEEEE');
 
         // Объединяем ячейки
@@ -411,7 +411,7 @@ class CalcController extends Controller
 
         // Выравнивание текста
         //$sheet->getStyle('A1')->getAlignment()->setHorizontal(
-        // PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        // \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
         //Выводим график
         $stroka=6;
         $sheet->setCellValueByColumnAndRow(0, $stroka-1, "N");
@@ -462,7 +462,7 @@ class CalcController extends Controller
         header ( "Content-Disposition: attachment; filename=Grafik.xls" );
 
         // Выводим содержимое файла
-        $objWriter = new PHPExcel_Writer_Excel5($xls);
+        $objWriter = new \PhpOffice\PhpSpreadsheet\Writer\Xls($xls);
         $objWriter->save('php://output');
     }
 }

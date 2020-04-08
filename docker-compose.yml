@@ -25,11 +25,8 @@ services:
   database:
     image: mysql:8.0.19
     container_name: financier_db
-    environment:
-      - MYSQL_DATABASE:${MYSQL_DATABASE}
-      - MYSQL_ROOT_PASSWORD:${MYSQL_ROOT_PASSWORD}
-      - MYSQL_USER:${MYSQL_USER}
-      - MYSQL_PASSWORD:${MYSQL_PASSWORD}
+    env_file:
+        - .env_mysql
     volumes:
       - ${DB_PATH_HOST}:/var/lib/mysql
       - ${DB_CONFIG}:/etc/mysql/conf.d

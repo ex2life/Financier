@@ -2,3 +2,4 @@
 /database/
 /phpmyadmin/
 .env
+.env_mysql

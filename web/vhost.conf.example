@@ -1,5 +1,5 @@
 server {
-    server_name fin.loc;
+    server_name #######;
     listen 80;
     index index.php index.html index.htm;
     root /var/www/html/site/public;
@@ -21,7 +21,7 @@ server {
 }
 server {
     listen 80;
-    server_name pma.fin.loc;
+    server_name #######;
     root /var/www/html/phpmyadmin;
     index index.php index.html index.htm;
 

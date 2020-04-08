@@ -46,3 +46,4 @@ services:
     volumes:
       - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
     working_dir: ${APP_PATH_CONTAINER}
+    command: composer install --ignore-platform-reqs

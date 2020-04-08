@@ -4,3 +4,5 @@ RUN chmod uga+x /usr/local/bin/install-php-extensions && sync && \
     install-php-extensions gd mysqli pdo_mysql zip
 RUN apk --no-cache add shadow && usermod -u 1000 www-data && groupmod -g 1000 www-data
 RUN chown -R www-data:www-data /var/www
+RUN php composer.phar install
+RUN npm install

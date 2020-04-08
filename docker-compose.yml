@@ -26,10 +26,10 @@ services:
     image: mysql:8.0.19
     container_name: financier_db
     environment:
-      - "MYSQL_DATABASE=financier"
-      - "MYSQL_ROOT_PASSWORD=rootpass"
-      - "MYSQL_USER=laravel"
-      - "MYSQL_PASSWORD=laravelpass"
+      - ${MYSQL_DATABASE}
+      - ${MYSQL_ROOT_PASSWORD}
+      - ${MYSQL_USER}
+      - ${MYSQL_PASSWORD}
     volumes:
       - ${DB_PATH_HOST}:/var/lib/mysql
       - ${DB_CONFIG}:/etc/mysql/conf.d
@@ -46,4 +46,3 @@ services:
     volumes:
       - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
     working_dir: ${APP_PATH_CONTAINER}
-    command: composer install

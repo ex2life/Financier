@@ -3,3 +3,4 @@
 /phpmyadmin/
 .env
 .env_mysql
+web/vhost.conf

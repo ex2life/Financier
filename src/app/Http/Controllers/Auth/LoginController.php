@@ -29,6 +29,13 @@ class LoginController extends Controller
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
+     * Login to be used by the controller.
+     *
+     * @var string
+     */
+    protected $nickname;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -36,5 +43,34 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+
+        $this->username = $this->findNickname();
+    }
+
+
+    /**
+     * Get the login nickname to be used by the controller.
+     *
+     * @return string
+     */
+    public function findNickname()
+    {
+        $login = request()->input('login');
+
+        $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'nickname';
+
+        request()->merge([$fieldType => $login]);
+
+        return $fieldType;
+    }
+
+    /**
+     * Get nickname property.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        return $this->username;
     }
 }

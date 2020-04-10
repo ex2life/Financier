@@ -30,7 +30,9 @@ Route::get('/calc/flex', 'CalcController@calc_input')->defaults('type', 'flex')-
 //Расчет графика платежей в требуемом формате (html для всплывающего окна, pdf-файл, xls-файл)
 Route::post('/calc/calc_graf', 'CalcController@calc')->name('calc_graf');
 
-
+//Аутентификация через Google
+Route::get('auth/google', 'Auth\GoogleController@redirectToGoogle');
+Route::get('auth/google/callback', 'Auth\GoogleController@handleGoogleCallback');
 
 //deprecated
 Route::get('/home', 'HomeController@index')->name('home');

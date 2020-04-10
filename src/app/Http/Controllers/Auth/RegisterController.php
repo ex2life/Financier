@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\SocialIdent;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -65,11 +66,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $newuser=User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'nickname' => $data['nickname'],
             'password' => Hash::make($data['password']),
         ]);
+        $newuser->socialIdent()->save(new SocialIdent());
+        if (!empty($data['social_id'])){
+            $social = explode("@", $data['social_id']);
+            $socialIdent=$newuser->socialIdent;
+            if ($social[1]=='google') $socialIdent->google=$social[0];
+            $newuser->socialIdent()->save($socialIdent);
+        }
+        return $newuser;
     }
 }

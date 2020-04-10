@@ -36,4 +36,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the socialIdent record associated with the user.
+     */
+    public function socialIdent()
+    {
+        return $this->hasOne('App\SocialIdent');
+    }
 }

@@ -31,8 +31,8 @@ Route::get('/calc/flex', 'CalcController@calc_input')->defaults('type', 'flex')-
 Route::post('/calc/calc_graf', 'CalcController@calc')->name('calc_graf');
 
 //Аутентификация через Google
-Route::get('auth/google', 'Auth\GoogleController@redirectToGoogle');
-Route::get('auth/google/callback', 'Auth\GoogleController@handleGoogleCallback');
+Route::get('auth/google', 'Auth\GoogleController@redirectToGoogle')->name('auth_google');
+Route::get('auth/google/callback', 'Auth\GoogleController@handleGoogleCallback')->name('auth_google_callback');
 
 //deprecated
 Route::get('/home', 'HomeController@index')->name('home');

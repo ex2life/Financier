@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card">
+                <div class="card opacitybg">
                     <div class="card-header">{{ __('Login') }}</div>
 
                     <div class="card-body">
@@ -12,7 +12,7 @@
                             @csrf
                             <div class="form-group row">
                                 <label for="login" class="col-sm-4 col-form-label text-md-right">
-                                    {{ __('Nickname or Email') }}
+                                    {{ __('Nickname or E-mail') }}
                                 </label>
 
                                 <div class="col-md-6">

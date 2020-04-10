@@ -34,5 +34,9 @@ Route::post('/calc/calc_graf', 'CalcController@calc')->name('calc_graf');
 Route::get('auth/google', 'Auth\GoogleController@redirectToGoogle')->name('auth_google');
 Route::get('auth/google/callback', 'Auth\GoogleController@handleGoogleCallback')->name('auth_google_callback');
 
+//Аутентификация через Twitter
+Route::get('auth/twitter', 'Auth\TwitterController@redirectToTwitter')->name('auth_twitter');
+Route::get('auth/twitter/callback', 'Auth\TwitterController@handleTwitterCallback')->name('auth_twitter_callback');
+
 //deprecated
 Route::get('/home', 'HomeController@index')->name('home');

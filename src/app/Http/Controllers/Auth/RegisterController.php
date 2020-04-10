@@ -77,6 +77,7 @@ class RegisterController extends Controller
             $social = explode("@", $data['social_id']);
             $socialIdent=$newuser->socialIdent;
             if ($social[1]=='google') $socialIdent->google=$social[0];
+            if ($social[1]=='twitter') $socialIdent->twitter=$social[0];
             $newuser->socialIdent()->save($socialIdent);
         }
         return $newuser;

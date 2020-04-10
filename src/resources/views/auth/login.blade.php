@@ -22,6 +22,11 @@
                                         </span>
                                         <span class="google-button__text">{{ __('Sign in with') }} Google</span>
                                     </button>
+                                    <div class="form-group row mb-0">
+                                        <div class="col-md-12 text-center">
+                                            <a href="{{url('/auth/twitter')}}" class="btn btn-primary">Login with Twitter</a>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-md-1 d-none d-md-block">
                                     <div class="vl">

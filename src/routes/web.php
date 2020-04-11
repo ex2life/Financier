@@ -30,13 +30,9 @@ Route::get('/calc/flex', 'CalcController@calc_input')->defaults('type', 'flex')-
 //Расчет графика платежей в требуемом формате (html для всплывающего окна, pdf-файл, xls-файл)
 Route::post('/calc/calc_graf', 'CalcController@calc')->name('calc_graf');
 
-//Аутентификация через Google
-Route::get('auth/google', 'Auth\GoogleController@redirectToGoogle')->name('auth_google');
-Route::get('auth/google/callback', 'Auth\GoogleController@handleGoogleCallback')->name('auth_google_callback');
-
-//Аутентификация через Twitter
-Route::get('auth/twitter', 'Auth\TwitterController@redirectToTwitter')->name('auth_twitter');
-Route::get('auth/twitter/callback', 'Auth\TwitterController@handleTwitterCallback')->name('auth_twitter_callback');
+//Аутентификация через социальные сети
+Route::get('auth/{provider}', 'Auth\SocialController@redirectToSocial')->name('auth_social');
+Route::get('auth/{provider}/callback', 'Auth\SocialController@handleCallback')->name('auth_social_callback');
 
 //deprecated
 Route::get('/home', 'HomeController@index')->name('home');

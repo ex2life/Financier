@@ -14,17 +14,19 @@
 
                                 <div class="col-12 col-md-5">
                                     <button type="button" class="google-button">
-                                        <span class="google-button__icon">
-                                            <object
-                                                type="image/svg+xml"
-                                                data="{{asset("images/social/google/GoogleLogo.svg")}}">
-                                            </object>
-                                        </span>
-                                        <span class="google-button__text">{{ __('Sign in with') }} Google</span>
+                                        <a href="{{ route('auth_social', ['provider' => 'google']) }}">
+                                            <span class="google-button__icon">
+                                                <object
+                                                    type="image/svg+xml"
+                                                    data="{{asset("images/social/google/GoogleLogo.svg")}}">
+                                                </object>
+                                            </span>
+                                            <span class="google-button__text">{{ __('Sign in with') }} Google</span>
+                                        </a>
                                     </button>
                                     <div class="form-group row mb-0">
                                         <div class="col-md-12 text-center">
-                                            <a href="{{url('/auth/twitter')}}" class="btn btn-primary">Login with Twitter</a>
+                                            <a href="{{ route('auth_social', ['provider' => 'twitter']) }}" class="btn btn-primary">Login with Twitter</a>
                                         </div>
                                     </div>
                                 </div>

@@ -9,16 +9,16 @@ use Socialite;
 use Auth;
 use Illuminate\Http\Request;
 
-class GoogleController extends Controller
+class SocialController extends Controller
 {
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function redirectToGoogle()
+    public function redirectToSocial($provider)
     {
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver($provider)->redirect();
     }
 
     /**
@@ -26,13 +26,13 @@ class GoogleController extends Controller
      *
      * @return void
      */
-    public function handleGoogleCallback()
+    public function handleCallback($provider)
     {
         try {
 
-            $user = Socialite::driver('google')->user();
+            $user = Socialite::driver($provider)->user();
 
-            $findSocialIdent = SocialIdent::where('google', $user->id)->first();
+            $findSocialIdent = SocialIdent::where($provider, $user->id)->first();
 
             if($findSocialIdent){
                 //Токен найден, авторизуем пользователя
@@ -43,7 +43,7 @@ class GoogleController extends Controller
             else {
                 //Токен не найден, отправляем на регистрацию
                 return redirect('/register')
-                    ->with('social_id', $user->id.'@google')
+                    ->with('social_id', $user->id.'@'.$provider)
                     ->with('name', $user->name)
                     ->with('nickname',strstr($user->email, '@', true))
                     ->with('email', $user->email);

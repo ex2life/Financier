@@ -12719,12 +12719,33 @@ body {
   padding: 8px 10px;
 }
 
-.google-button {
+/* vertical line */
+
+.gl {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%);
+  border: 2px solid #ddd;
+  width: 250px;
+}
+
+/* text inside the vertical line */
+
+.gl-innertext {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  padding: 8px 10px;
+}
+
+.social-button {
   height: 40px;
   width: 100%;
   border-width: 0;
-  background: white;
-  color: #737373;
   border-radius: 5px;
   white-space: nowrap;
   box-shadow: 1px 1px 0px 1px rgba(0, 0, 0, 0.05);
@@ -12734,36 +12755,106 @@ body {
   padding: 0;
 }
 
-.google-button:focus,
-.google-button:hover {
+.social-button:focus,
+.social-button:hover {
   box-shadow: 1px 4px 5px 1px rgba(0, 0, 0, 0.1);
 }
 
-.google-button:active {
-  background-color: #e5e5e5;
+.social-button:active {
   box-shadow: none;
   transition-duration: 10ms;
 }
 
-.google-button__icon {
+.social-button__icon {
   display: inline-block;
   vertical-align: middle;
-  margin: 8px 0 8px 8px;
-  width: 18px;
-  height: 18px;
   box-sizing: border-box;
 }
 
-.google-button__icon--plus {
-  width: 27px;
-}
-
-.google-button__text {
+.social-button__text {
   display: inline-block;
   vertical-align: middle;
-  padding: 0 24px;
   font-size: 14px;
   font-weight: bold;
+}
+
+.google-button {
+  background: #FFFFFF;
+  color: #737373;
   font-family: "Roboto", arial, sans-serif;
+}
+
+.google-button:active {
+  background-color: #e5e5e5;
+}
+
+.google-icon {
+  margin: 8px 0 8px 8px;
+  width: 18px;
+  height: 18px;
+}
+
+.google-text {
+  padding: 0 24px;
+}
+
+.twitter-button {
+  background: #1DA1F2;
+  color: #FFFFFF;
+  font-family: Helvetica, sans-serif;
+}
+
+.twitter-button:active {
+  background-color: #1781c2;
+}
+
+.twitter-icon {
+  margin: 2px 0px 0px 8px;
+  width: 30px;
+  height: 30px;
+}
+
+.twitter-text {
+  padding: 0 24px 0 12px;
+}
+
+.vk-button {
+  background: #4680C2;
+  color: #FFFFFF;
+  font-family: TT Commons, sans-serif;
+}
+
+.vk-button:active {
+  background-color: #335e8f;
+}
+
+.vk-icon {
+  margin: 2px 0px 0px 8px;
+  width: 30px;
+  height: 30px;
+}
+
+.vk-text {
+  padding: 0 24px 0 12px;
+}
+
+.facebook-button {
+  background: #3b5998;
+  color: #FFFFFF;
+  font-family: TT Commons, sans-serif;
+}
+
+.facebook-button:active {
+  background-color: #2a4887;
+}
+
+.facebook-icon {
+  margin: 2px 0px 0px 8px;
+  width: 30px;
+  height: 30px;
+}
+
+.facebook-text {
+  padding: 0 24px 0 12px;
 }
 

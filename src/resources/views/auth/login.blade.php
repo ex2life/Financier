@@ -11,23 +11,58 @@
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
                             <div class="row">
-
                                 <div class="col-12 col-md-5">
-                                    <button type="button" class="google-button">
-                                        <a href="{{ route('auth_social', ['provider' => 'google']) }}">
-                                            <span class="google-button__icon">
+                                    <div class="mb-2">
+                                        <a href="{{ route('auth_social', ['provider' => 'vkontakte']) }}">
+                                            <button type="button" class="social-button vk-button">
+                                            <span class="social-button__icon vk-icon">
                                                 <object
                                                     type="image/svg+xml"
-                                                    data="{{asset("images/social/google/GoogleLogo.svg")}}">
+                                                    data="{{asset("images/social/VKLogo.svg")}}">
                                                 </object>
                                             </span>
-                                            <span class="google-button__text">{{ __('Sign in with') }} Google</span>
+                                                <span
+                                                    class="social-button__text vk-text">{{ __('Sign in with') }} VK</span>
+                                            </button>
                                         </a>
-                                    </button>
-                                    <div class="form-group row mb-0">
-                                        <div class="col-md-12 text-center">
-                                            <a href="{{ route('auth_social', ['provider' => 'twitter']) }}" class="btn btn-primary">Login with Twitter</a>
-                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <a href="{{ route('auth_social', ['provider' => 'google']) }}">
+                                            <button type="button" class="social-button google-button">
+                                            <span class="social-button__icon google-icon">
+                                                <object
+                                                    type="image/svg+xml"
+                                                    data="{{asset("images/social/GoogleLogo.svg")}}">
+                                                </object>
+                                            </span>
+                                                <span class="social-button__text google-text">{{ __('Sign in with') }} Google</span>
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div class="mb-2">
+                                        <a href="{{ route('auth_social', ['provider' => 'twitter']) }}">
+                                            <button type="button" class="social-button twitter-button">
+                                            <span class="social-button__icon twitter-icon">
+                                                <object
+                                                    type="image/svg+xml"
+                                                    data="{{asset("images/social/TwitterLogo.svg")}}">
+                                                </object>
+                                            </span>
+                                                <span
+                                                    class="social-button__text twitter-text">{{ __('Sign in with') }} Twitter</span>
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div class="form-group">
+                                        <a href="{{ route('auth_social', ['provider' => 'facebook']) }}">
+                                            <button type="button" class="social-button facebook-button">
+                                            <span class="social-button__icon facebook-icon">
+                                                <img src="{{asset("images/social/FacebookLogo.png")}}" alt="" height="100%" width="100%">
+                                            </span>
+                                                <span
+                                                    class="social-button__text facebook-text">{{ __('Sign in with') }} Facebook</span>
+                                            </button>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="col-md-1 d-none d-md-block">
@@ -35,10 +70,14 @@
                                         <span class="vl-innertext">{{ __('or') }}</span>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="d-md-none text-center">
-                                        <p>{{ __('or') }}</p>
+                                <div class="col-12 d-md-none text-center  mb-4">
+                                    <div class="form-group">
+                                        <div class="gl">
+                                            <span class="gl-innertext">{{ __('or') }}</span>
+                                        </div>
                                     </div>
+                                </div>
+                                <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <input id="login" type="text"
                                                class="form-control{{ $errors->has('nickname') || $errors->has('email') ? ' is-invalid' : '' }}"

@@ -83,7 +83,7 @@
                                                class="form-control{{ $errors->has('nickname') || $errors->has('email') ? ' is-invalid' : '' }}"
                                                name="login" placeholder="{{ __('Nickname or E-mail') }}"
                                                value="{{ old('nickname') ?: old('email') }}" required
-                                               autofocus>
+                                               >
 
                                         @if ($errors->has('nickname') || $errors->has('email'))
                                             <span class="invalid-feedback">

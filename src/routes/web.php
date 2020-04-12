@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Auth::routes();
+//Профиль пользователя
+Route::get('/profile', 'Auth\UserController@profile')->name('profile');
 
 //Домашняя страница
 Route::get('/', function () {

@@ -6,7 +6,6 @@
             <div class="col-md-10">
                 <div class="card opacitybg">
                     <div class="card-header">{{ __('Login') }}</div>
-
                     <div class="card-body">
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
@@ -57,7 +56,8 @@
                                         <a href="{{ route('auth_social', ['provider' => 'facebook']) }}">
                                             <button type="button" class="social-button facebook-button">
                                             <span class="social-button__icon facebook-icon">
-                                                <img src="{{asset("images/social/FacebookLogo.png")}}" alt="" height="100%" width="100%">
+                                                <img src="{{asset("images/social/FacebookLogo.png")}}" alt=""
+                                                     height="100%" width="100%">
                                             </span>
                                                 <span
                                                     class="social-button__text facebook-text">{{ __('Sign in with') }} Facebook</span>
@@ -83,7 +83,7 @@
                                                class="form-control{{ $errors->has('nickname') || $errors->has('email') ? ' is-invalid' : '' }}"
                                                name="login" placeholder="{{ __('Nickname or E-mail') }}"
                                                value="{{ old('nickname') ?: old('email') }}" required
-                                               >
+                                        >
 
                                         @if ($errors->has('nickname') || $errors->has('email'))
                                             <span class="invalid-feedback">

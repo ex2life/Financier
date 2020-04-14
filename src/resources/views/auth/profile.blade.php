@@ -16,7 +16,7 @@
                         <div class="container bootstrap snippet">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <h1>{{$user->name}}</h1></div>
+                                    <h3>{{$user->name}}</h3></div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-3">
@@ -56,91 +56,46 @@
                                              aria-labelledby="nav-settings-tab">
                                             <form class="form" action="##" method="post" id="registrationForm">
                                                 <div class="row">
-                                                    <div class="col-6">
+                                                    <div class="col-12">
                                                         <div class="form-group">
-                                                            <label for="last_name">
-                                                                Last name</label>
+                                                            <label for="name">
+                                                                {{ __('Name') }}</label>
                                                             <input type="text" class="form-control" name="last_name"
-                                                                   id="last_name" placeholder="last name"
-                                                                   title="enter your last name if any.">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <div class="form-group">
-                                                            <label for="last_name">
-                                                                Last name</label>
-                                                            <input type="text" class="form-control" name="last_name"
-                                                                   id="last_name" placeholder="last name"
-                                                                   title="enter your last name if any.">
+                                                                   id="name" placeholder="{{ __('Name') }}" value="{{$user->name}}"
+                                                                   title="Введите ваше ФИО">
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-6">
-                                                    <div class="form-group">
-
-                                                        <label for="phone">
-                                                            <h4>Phone</h4></label>
-                                                        <input type="text" class="form-control" name="phone" id="phone"
-                                                               placeholder="enter phone"
-                                                               title="enter your phone number if any.">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <label for="email">
+                                                                {{ __('Email') }}</label>
+                                                            <input type="email" class="form-control" name="email" id="email"
+                                                                   placeholder="you@email.com" title="Введите ваш e-mail" value="{{$user->email}}">
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="form-group">
 
-                                                <div class="form-group">
-                                                    <div class="col-6">
-                                                        <label for="mobile">
-                                                            <h4>Mobile</h4></label>
-                                                        <input type="text" class="form-control" name="mobile"
-                                                               id="mobile" placeholder="enter mobile number"
-                                                               title="enter your mobile number if any.">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-
-                                                    <div class="col-6">
-                                                        <label for="email">
-                                                            <h4>Email</h4></label>
-                                                        <input type="email" class="form-control" name="email" id="email"
-                                                               placeholder="you@email.com" title="enter your email.">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-
-                                                    <div class="col-6">
-                                                        <label for="email">
-                                                            <h4>Location</h4></label>
-                                                        <input type="email" class="form-control" id="location"
-                                                               placeholder="somewhere" title="enter a location">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-
-                                                    <div class="col-6">
-                                                        <label for="password">
-                                                            <h4>Password</h4></label>
-                                                        <input type="password" class="form-control" name="password"
-                                                               id="password" placeholder="password"
-                                                               title="enter your password.">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-
-                                                    <div class="col-6">
-                                                        <label for="password2">
-                                                            <h4>Verify</h4></label>
-                                                        <input type="password" class="form-control" name="password2"
-                                                               id="password2" placeholder="password2"
-                                                               title="enter your password2.">
+                                                            <label for="nickname">
+                                                                {{ __('Nickname') }}</label>
+                                                            <input type="text" class="form-control" name="nickname" id="nickname"
+                                                                   placeholder="login" value="{{$user->nickname}}"
+                                                                   title="введите ваш логин">
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-xs-12">
                                                         <br>
                                                         <button class="btn btn-lg btn-success" type="submit"><i
-                                                                class="glyphicon glyphicon-ok-sign"></i> Save
+                                                                class="glyphicon glyphicon-ok-sign"></i> {{ __('Save') }}
                                                         </button>
                                                         <button class="btn btn-lg" type="reset"><i
-                                                                class="glyphicon glyphicon-repeat"></i> Reset
+                                                                class="glyphicon glyphicon-repeat"></i> {{ __('Reset') }}
                                                         </button>
                                                     </div>
                                                 </div>

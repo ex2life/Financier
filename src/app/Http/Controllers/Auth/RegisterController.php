@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Avatar;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\SocialIdent;
@@ -73,6 +74,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
         $newuser->socialIdent()->save(new SocialIdent());
+        $newuser->avatar()->save(new Avatar());
         if (!empty($data['social_id'])){
             $social = explode("@", $data['social_id']);
             $socialIdent=$newuser->socialIdent;

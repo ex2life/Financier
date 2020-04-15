@@ -44,4 +44,12 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\SocialIdent');
     }
+
+    /**
+     * Get the avatar associated with the user.
+     */
+    public function avatar()
+    {
+        return $this->hasOne('App\Avatar');
+    }
 }

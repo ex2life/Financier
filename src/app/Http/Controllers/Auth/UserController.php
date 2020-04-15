@@ -73,4 +73,32 @@ class UserController extends Controller
             ->with("status", "Пароль сменен успешно!");
 
     }
+
+    public function uploadAvatar(Request $request)
+    {
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $image=imagecreatefromstring (file_get_contents($file));
+            $size = min(imagesx($image), imagesy($image));
+            $image = imagecrop($image, ['x' => 0, 'y' => 0, 'width' => $size, 'height' => $size]);
+            $avatar = Auth::user()->avatar;
+            $avatar_path = $avatar->path;
+            $name = (md5(rand(0, 99999999999) . auth()->user()->id)) . '.jpg';
+            imagejpeg($image, public_path() . '/images/profile_images/'. $name);
+            #$file->move(public_path() . '/images/profile_images/', $name);
+            $avatar->path = '/images/profile_images/' . $name;
+            $avatar->save();
+            Auth::user()->avatar()->save($avatar);
+            if (file_exists(public_path() . $avatar_path)) {
+                if($avatar_path!=='images/default.png')
+                {
+                    unlink(public_path() . $avatar_path);
+                }
+            } else {
+                // File not found.
+            }
+        }
+        return redirect('/profile');
+
+    }
 }

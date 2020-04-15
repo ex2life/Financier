@@ -32,15 +32,21 @@
                                     <nav class="mb-3 ">
                                         <ul class="nav nav-tabs" id="nav-tab" role="tablist">
                                             <li class="nav-item dropdown d-md-none">
-                                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{__('Profile')}}</a>
+                                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
+                                                   role="button" aria-haspopup="true"
+                                                   aria-expanded="false">{{__('Profile')}}</a>
                                                 <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#nav-settings" data-toggle="tab">{{__('Setting')}}</a>
-                                                    <a class="dropdown-item" href="#nav-password" data-toggle="tab">{{__('Update password')}}</a>
-                                                    <a class="dropdown-item" href="#nav-social" data-toggle="tab">{{__('Social networks')}}</a>
+                                                    <a class="dropdown-item" href="#nav-settings"
+                                                       data-toggle="tab">{{__('Setting')}}</a>
+                                                    <a class="dropdown-item" href="#nav-password"
+                                                       data-toggle="tab">{{__('Update password')}}</a>
+                                                    <a class="dropdown-item" href="#nav-social"
+                                                       data-toggle="tab">{{__('Social networks')}}</a>
                                                 </div>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link d-none d-md-block {{empty(session('topass')) ? 'active':''}}" id="nav-settings-tab" data-toggle="tab"
+                                                <a class="nav-link d-none d-md-block {{empty(session('topass')) ? 'active':''}}"
+                                                   id="nav-settings-tab" data-toggle="tab"
                                                    href="#nav-settings" role="tab" aria-controls="nav-settings"
                                                    aria-selected="true">{{__('Setting')}}</a>
                                             </li>
@@ -50,12 +56,14 @@
                                                    aria-selected="true">{{__('Info')}}</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link d-none d-md-block {{!empty(session('topass')) ? 'active':''}}" id="nav-password-tab" data-toggle="tab"
+                                                <a class="nav-link d-none d-md-block {{!empty(session('topass')) ? 'active':''}}"
+                                                   id="nav-password-tab" data-toggle="tab"
                                                    href="#nav-password" role="tab" aria-controls="nav-password"
                                                    aria-selected="false">{{__('Change password')}}</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link d-none d-md-block" id="nav-social-tab" data-toggle="tab"
+                                                <a class="nav-link d-none d-md-block" id="nav-social-tab"
+                                                   data-toggle="tab"
                                                    href="#nav-social" role="tab" aria-controls="nav-social"
                                                    aria-selected="false">{{__('Social networks')}}</a>
                                             </li>
@@ -66,11 +74,13 @@
                                              aria-labelledby="nav-info-tab">
                                             @include('auth/profile_info')
                                         </div>
-                                        <div class="tab-pane fade show {{empty(session('topass')) ? 'active':''}}" id="nav-settings" role="tabpanel"
+                                        <div class="tab-pane fade show {{empty(session('topass')) ? 'active':''}}"
+                                             id="nav-settings" role="tabpanel"
                                              aria-labelledby="nav-settings-tab">
                                             @include('auth/profile_setting')
                                         </div>
-                                        <div class="tab-pane fade show {{!empty(session('topass')) ? 'active':''}}" id="nav-password" role="tabpanel"
+                                        <div class="tab-pane fade show {{!empty(session('topass')) ? 'active':''}}"
+                                             id="nav-password" role="tabpanel"
                                              aria-labelledby="nav-password-tab">
                                             @include('auth/profile_password')
                                         </div>
@@ -88,6 +98,58 @@
                         <!--/row-->
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="newAvatarModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Изменение фото</h4>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('profile_uploadAvatar')}}" method="POST"
+                      class="form-horizontal" enctype="multipart/form-data">
+                    @csrf
+                    <div id="text-popup" class="modal-body">
+
+                        {{ csrf_field() }}
+
+                        <div class="input-group">
+
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupFileAddon01">Фото</span>
+                            </div>
+                            <div class="custom-file">
+                                <input type="file" required class="custom-file-input" id="image" name="image"
+                                       aria-describedby="image">
+                                <label class="custom-file-label" for="image">Выберите файл</label>
+                            </div>
+                        </div>
+
+                        <script>
+                            document.querySelector('.custom-file-input').addEventListener('change',function(e){
+                                var fileName = document.getElementById("image").files[0].name;
+                                var nextSibling = e.target.nextElementSibling;
+                                nextSibling.innerText = fileName;
+                            })
+                        </script>
+
+                        <small id="imagehelp" class="form-text text-muted">фото должно быть квадратное
+                        </small>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">Закрыть
+                        </button>
+                        <button type="submit" class="btn btn-primary">Загрузить фото
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

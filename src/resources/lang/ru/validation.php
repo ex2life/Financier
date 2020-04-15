@@ -168,6 +168,8 @@ return [
         'first_name'            => 'Имя',
         'last_name'             => 'Фамилия',
         'password'              => 'Пароль',
+        'new_password'          => 'Новый пароль',
+        'current_password'      => 'Действующий пароль',
         'password_confirmation' => 'Подтверждение пароля',
         'city'                  => 'Город',
         'country'               => 'Страна',

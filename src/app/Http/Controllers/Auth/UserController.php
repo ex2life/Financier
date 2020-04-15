@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -36,9 +37,40 @@ class UserController extends Controller
                 ->withInput();
         }
         $user = Auth::user();
-        $user->name=$request->name;
-        $user->email=$request->email;
+        $user->name = $request->name;
+        $user->email = $request->email;
         $user->save();
-        return redirect(route("profile"))->with('status','Сохранено успешно.');
+        return redirect(route("profile"))->with('status', 'Сохранено успешно.');
+    }
+
+    public function changePassword(Request $request)
+    {
+
+        if (!(Hash::check($request->current_password, Auth::user()->password))) {
+            // The passwords matches
+            return redirect()->back()
+                ->with("topass", "true")
+                ->with("status_error", "Ваш введенный текущий пароль не совпадает с сохраненным. Пожалуйста, попробуйте снова.");
+        }
+
+        $validator = Validator::make($request->all(), [
+            'current_password' => 'required',
+            'new_password' => 'required|string|min:6|confirmed',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->with("topass", "true")
+                ->withErrors($validator->errors());
+        }
+
+        //Change Password
+        $user = Auth::user();
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return redirect()->back()
+            ->with("topass", "true")
+            ->with("status", "Пароль сменен успешно!");
+
     }
 }

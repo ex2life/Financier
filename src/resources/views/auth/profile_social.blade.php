@@ -9,7 +9,7 @@
                                                                 </object>
                                                             </span>
                 <span
-                    class="social-button__text vk-text">{{ (is_null($socialIdent->vkontakte)) ? __('Add sign in with') : __('Delete sign in with') }} VK</span>
+                    class="social-button__text vk-text">{{ (is_null($socialIdent->vkontakte)) ? __('Add data') : __('Delete data') }} VK</span>
             </button>
         </a>
     </div>
@@ -22,7 +22,7 @@
                                                     data="{{asset("images/social/GoogleLogo.svg")}}">
                                                 </object>
                                             </span>
-                <span class="social-button__text google-text">{{(is_null($socialIdent->google)) ? __('Add sign in with') : __('Delete sign in with') }} Google</span>
+                <span class="social-button__text google-text">{{(is_null($socialIdent->google)) ? __('Add data') : __('Delete data') }} Google</span>
             </button>
         </a>
     </div>
@@ -36,7 +36,7 @@
                                                 </object>
                                             </span>
                 <span
-                    class="social-button__text twitter-text">{{(is_null($socialIdent->twitter)) ? __('Add sign in with') : __('Delete sign in with') }} Twitter</span>
+                    class="social-button__text twitter-text">{{(is_null($socialIdent->twitter)) ? __('Add data') : __('Delete data') }} Twitter</span>
             </button>
         </a>
     </div>
@@ -48,7 +48,7 @@
                                                      height="100%" width="100%">
                                             </span>
                 <span
-                    class="social-button__text facebook-text">{{(is_null($socialIdent->facebook)) ? __('Add sign in with') : __('Delete sign in with') }} Facebook</span>
+                    class="social-button__text facebook-text">{{(is_null($socialIdent->facebook)) ? __('Add data') : __('Delete data') }} Facebook</span>
             </button>
         </a>
     </div>

@@ -16,6 +16,7 @@ Auth::routes();
 //Профиль пользователя
 Route::get('/profile', 'Auth\UserController@profile')->name('profile')->middleware('auth');
 Route::put('/profile', 'Auth\UserController@update')->name('profile_update')->middleware('auth');
+Route::put('/profile/changePassword', 'Auth\UserController@changePassword')->name('profile_changePassword')->middleware('auth');
 
 //Домашняя страница
 Route::get('/', function () {

@@ -161,8 +161,9 @@ return [
     */
 
     'attributes' => [
-        'name'                  => 'Имя',
+        'name'                  => 'Фио',
         'username'              => 'Никнейм',
+        'nickname'              => 'Логин',
         'email'                 => 'E-Mail адрес',
         'first_name'            => 'Имя',
         'last_name'             => 'Фамилия',

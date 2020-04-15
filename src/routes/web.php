@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 Auth::routes();
 //Профиль пользователя
-Route::get('/profile', 'Auth\UserController@profile')->name('profile');
+Route::get('/profile', 'Auth\UserController@profile')->name('profile')->middleware('auth');
+Route::put('/profile', 'Auth\UserController@update')->name('profile_update')->middleware('auth');
 
 //Домашняя страница
 Route::get('/', function () {
@@ -34,6 +35,7 @@ Route::post('/calc/calc_graf', 'CalcController@calc')->name('calc_graf');
 
 //Аутентификация через социальные сети
 Route::get('auth/{provider}', 'Auth\SocialController@redirectToSocial')->name('auth_social');
+Route::get('auth/{provider}/del', 'Auth\SocialController@DelSocial')->name('auth_social_del')->middleware('auth');
 Route::get('auth/{provider}/callback', 'Auth\SocialController@handleCallback')->name('auth_social_callback');
 
 //deprecated

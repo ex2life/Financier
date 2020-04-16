@@ -53,7 +53,7 @@ services:
   certbot:
     build: ./certbot
     environment:
-      - DOMAINS=${CERTBOT_DOMAINS}
+      - DOMAINS=${CERTBOT_DOMAIN1} ${CERTBOT_DOMAIN2}
       - EMAIL=${CERTBOT_EMAIL}
     volumes:
       - ${CERTBOT_CERTS_PATH}:${CERTBOT_CERTS_PATH_CONTAINER}:rw

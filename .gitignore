@@ -4,5 +4,5 @@
 .env
 .env_mysql
 web/vhost.conf
-/cerboot/certbot_certs
-/cerboot/certbot_webroot
+/cerbot/certbot_certs/
+/cerbot/certbot_webroot/

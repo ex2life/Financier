@@ -1,0 +1,91 @@
+# Config for get SSL and redirect to HTTPS
+server {
+  listen      80;
+  server_name .fin.######;
+
+  location ^~ /.well-known/acme-challenge/ {
+  auth_basic off;
+  allow all;
+  root /usr/share/nginx/html;
+  try_files $uri =404;
+  break;
+  }
+
+  # Redirect to HTTPS
+  location / { return 301 https://fin.######$request_uri; }
+}
+
+server {
+  listen      443 ssl http2;
+  server_name www.fin.######;
+
+  # SSL
+  ssl_certificate /etc/letsencrypt/live/fin.ex2life.ml/cert.pem;
+  ssl_certificate_key /etc/letsencrypt/live/fin.ex2life.ml/privkey.pem;
+
+  # Redirect to HTTPS
+  location / { return 301 https://fin.######$request_uri; }
+}
+
+server {
+  listen      443 ssl http2;
+  server_name www.pma.fin.######;
+
+  # SSL
+  ssl_certificate /etc/letsencrypt/live/pma.fin.ex2life.ml/cert.pem;
+  ssl_certificate_key /etc/letsencrypt/live/pma.fin.ex2life.ml/privkey.pem;
+
+  # Redirect to HTTPS
+  location / { return 301 https://pma.fin.######$request_uri; }
+}
+
+server {
+    listen      443 ssl http2;
+    server_name fin.ex2life.ml;
+    index index.php index.html index.htm;
+    root /var/www/html/site/public;
+
+
+    # SSL
+  ssl_certificate /etc/letsencrypt/live/fin.ex2life.ml/cert.pem;
+  ssl_certificate_key /etc/letsencrypt/live/fin.ex2life.ml/privkey.pem;
+
+    location / {
+        try_files $uri /index.php?$args;
+    }
+
+    location ~ \.php$ {
+        try_files $uri $uri/ /index.php last;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass app:9000;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+    }
+    location ~* .php/ { rewrite  (.*.php)/ $1 last; }
+}
+server {
+    listen      443 ssl http2;
+    server_name pma.fin.######;
+    root /var/www/html/phpmyadmin;
+    index index.php index.html index.htm;
+
+    # SSL
+  ssl_certificate /etc/letsencrypt/live/pma.fin.ex2life.ml/cert.pem;
+  ssl_certificate_key /etc/letsencrypt/live/pma.fin.ex2life.ml/privkey.pem;
+
+    location / {
+        try_files $uri /index.php?$args;
+    }
+
+    location ~ \.php$ {
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass phpmyadmin:9000;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+    }
+    location ~* .php/ { rewrite  (.*.php)/ $1 last; }
+}

@@ -1,5 +1,5 @@
 server {
-    server_name #######;
+    server_name fin.######;
     listen 80;
     index index.php index.html index.htm;
     root /var/www/html/site/public;
@@ -7,7 +7,15 @@ server {
     location / {
         try_files $uri /index.php?$args;
     }
-
+	
+    location ^~ /.well-known/acme-challenge/ {
+		auth_basic off;
+		allow all;
+		root /usr/share/nginx/html;
+		try_files $uri =404;
+		break;
+    }
+  
     location ~ \.php$ {
         try_files $uri $uri/ /index.php last;
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
@@ -21,9 +29,17 @@ server {
 }
 server {
     listen 80;
-    server_name #######;
+    server_name pma.fin.######;
     root /var/www/html/phpmyadmin;
     index index.php index.html index.htm;
+	
+    location ^~ /.well-known/acme-challenge/ {
+		auth_basic off;
+		allow all;
+		root /usr/share/nginx/html;
+		try_files $uri =404;
+		break;
+    }
 
     location / {
         try_files $uri /index.php?$args;

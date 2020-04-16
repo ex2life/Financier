@@ -7,12 +7,17 @@ services:
       - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
       - ${PHPMYADMIN_PATH}:${PHPMYADMIN_PATH_CONTAINER}
       - ${NGINX_CONFIG}:/etc/nginx/conf.d/default.conf
+      - ./certbot/certbot_certs:/etc/letsencrypt:ro
+      - ./certbot/certbot_webroot:/usr/share/nginx/html:ro
     ports:
       - "80:80"
+      - "443:443"
     links:
       - app
       - phpmyadmin
     working_dir: ${APP_PATH_CONTAINER}
+    depends_on:
+      - certbot
   app:
     build: ./app
     container_name: financier_app
@@ -44,3 +49,11 @@ services:
       - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
     working_dir: ${APP_PATH_CONTAINER}
     command: composer install --ignore-platform-reqs
+  certbot:
+    build: ./certbot
+    environment:
+      - DOMAINS=FIN.LOC PMA.FIN.LOC
+      - EMAIL=ABRAMIZSARANSK@GMAIL.COM
+    volumes:
+      - ./certbot/certbot_certs:/etc/letsencrypt:rw
+      - ./certbot/certbot_webroot:/webroot:rw

@@ -23,6 +23,11 @@ Route::post('/profile/uploadAvatar', 'Auth\UserController@uploadAvatar')->name('
 Route::get('/', function () {
     return view('index');
 })->name('index');
+//Политика конфиденсальности
+Route::get('/privacy', function () {
+    return view('privacy');
+})->name('privacy');
+
 
 //Страница для выбора типа платежей
 Route::get('/calc', 'CalcController@calc_list')->name('calc_list');

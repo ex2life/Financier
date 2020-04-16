@@ -16,6 +16,7 @@ services:
       - app
       - phpmyadmin
     working_dir: ${APP_PATH_CONTAINER}
+    restart: unless-stopped
     depends_on:
       - certbot
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
@@ -25,12 +26,14 @@ services:
     volumes:
       - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
     working_dir: ${APP_PATH_CONTAINER}
+    restart: unless-stopped
     user: www-data
     links:
       - database
   database:
     image: mysql:8.0.19
     container_name: financier_db
+    restart: unless-stopped
     env_file:
         - .env_mysql
     volumes:
@@ -38,6 +41,7 @@ services:
       - ${DB_CONFIG}:/etc/mysql/conf.d
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:fpm-alpine
+    restart: unless-stopped
     container_name: financier_pma
     volumes:
       - ${PHPMYADMIN_PATH}:${PHPMYADMIN_PATH_CONTAINER}
@@ -52,6 +56,7 @@ services:
     command: composer install --ignore-platform-reqs
   certbot:
     build: ./certbot
+    restart: unless-stopped
     environment:
       - DOMAINS=${CERTBOT_DOMAIN1} ${CERTBOT_DOMAIN2}
       - EMAIL=${CERTBOT_EMAIL}

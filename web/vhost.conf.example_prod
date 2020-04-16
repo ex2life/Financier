@@ -20,7 +20,7 @@ server {
   server_name www.fin.######;
 
   # SSL
-  ssl_certificate /etc/letsencrypt/live/fin.ex2life.ml/cert.pem;
+  ssl_certificate /etc/letsencrypt/live/fin.ex2life.ml/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/fin.ex2life.ml/privkey.pem;
 
   # Redirect to HTTPS
@@ -32,7 +32,7 @@ server {
   server_name www.pma.fin.######;
 
   # SSL
-  ssl_certificate /etc/letsencrypt/live/pma.fin.ex2life.ml/cert.pem;
+  ssl_certificate /etc/letsencrypt/live/pma.fin.ex2life.ml/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/pma.fin.ex2life.ml/privkey.pem;
 
   # Redirect to HTTPS
@@ -47,7 +47,7 @@ server {
 
 
     # SSL
-  ssl_certificate /etc/letsencrypt/live/fin.ex2life.ml/cert.pem;
+  ssl_certificate /etc/letsencrypt/live/fin.ex2life.ml/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/fin.ex2life.ml/privkey.pem;
 
     location / {
@@ -72,7 +72,7 @@ server {
     index index.php index.html index.htm;
 
     # SSL
-  ssl_certificate /etc/letsencrypt/live/pma.fin.ex2life.ml/cert.pem;
+  ssl_certificate /etc/letsencrypt/live/pma.fin.ex2life.ml/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/pma.fin.ex2life.ml/privkey.pem;
 
     location / {

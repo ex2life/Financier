@@ -222,8 +222,8 @@ class CalcController extends Controller
         $str_out .= "Процентная ставка: <strong>$str_proc</strong> %<br>";
         $str_out .= "Срок кредита (мес): <strong>$col_month</strong> </p>";
 
-        $str_out .= "<table class=\"platezh_table\">\n";
-        $str_out .= "<tr class=\"platezh_table_header\"><th>N</th><th>Дата</th><th>Сумма платежа</th><th>Погашение основного долга</th><th>Погашение процентов</th><th>Остаток основного долга</th></tr>";
+        $str_out .= "<table class=\"table table-striped table-responsive-lg\">\n";
+        $str_out .= "<thead><tr class=\"platezh_table_header\"><th scope=\"col\">N</th><th scope=\"col\">Дата</th><th scope=\"col\">Сумма платежа</th><th scope=\"col\">Погашение основного долга</th><th scope=\"col\">Погашение процентов</th><th scope=\"col\">Остаток основного долга</th></tr></thead><tbody>";
 
         $total_platezh = $total_platezh_main_dolg = $total_platezh_proc = 0;
 
@@ -232,7 +232,7 @@ class CalcController extends Controller
             $str_platezh_main_dolg = number_format($arr_platezh['platezh_main_dolg'], 2, '.', ' ');
             $str_platezh_proc = number_format($arr_platezh['platezh_proc'], 2, '.', ' ');
             $str_ostatok = number_format($arr_platezh['ostatok'], 2, '.', ' ');
-            $str_out .= "<tr><td>" . $arr_platezh['nomer'] . "</td><td>" . $arr_platezh['date'] . "</td><td>" . $str_platezh . "</td>";
+            $str_out .= "<tr><th scope=\"row\">" . $arr_platezh['nomer'] . "</th><td>" . $arr_platezh['date'] . "</td><td>" . $str_platezh . "</td>";
             $str_out .= "<td>" . $str_platezh_main_dolg . "</td><td>" . $str_platezh_proc . "</td><td>" . $str_ostatok . "</td></tr>";
             $total_platezh += $arr_platezh['platezh'];
             $total_platezh_main_dolg += $arr_platezh['platezh_main_dolg'];
@@ -241,9 +241,9 @@ class CalcController extends Controller
         $str_total_platezh = number_format($total_platezh, 2, '.', ' ');
         $str_total_platezh_main_dolg = number_format($total_platezh_main_dolg, 2, '.', ' ');
         $str_total_platezh_proc = number_format($total_platezh_proc, 2, '.', ' ');
-        $str_out .= "<tr class=\"platezh_table_footer\"><td></td><td>Итого</td><td>$str_total_platezh</td><td>$str_total_platezh_main_dolg</td>";
+        $str_out .= "</tbody><tfoot><tr class=\"\"><td></td><td>Итого</td><td>$str_total_platezh</td><td>$str_total_platezh_main_dolg</td>";
         $str_out .= "<td>$str_total_platezh_proc</td><td></td></tr>";
-        $str_out .= "</table>\n";
+        $str_out .= "</tfoot></table>\n";
 
 
         // Форма для печати в pdf и сохранения в Excel

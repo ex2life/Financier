@@ -71,7 +71,7 @@
         </div>
     </div>
     <div id="phpModal" class="modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg ml-auto mr-auto" role="document">
             <div class="modal-content"><div class="modal-header">
                     <h5 class="modal-title">График платежей по кредиту</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">

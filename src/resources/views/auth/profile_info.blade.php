@@ -1,5 +1,5 @@
 <div class="mb-2">
-    <img title="profile image" class="rounded-circle img-fluid"
+    <img title="Ваше фото" class="rounded-circle img-fluid"
          src="{{asset($user->avatar->path)}}">
     <button type="button" class="btn btn-secondary container-fluid mt-3" data-toggle="modal"
             data-target="#newAvatarModal">Сменить фото

@@ -28,7 +28,7 @@ Route::get('/privacy', function () {
     return view('privacy');
 })->name('privacy');
 
-
+//РАСЧЕТ ГРАФИКА КРЕДИТНЫХ ПЛАТЕЖЕЙ
 //Страница для выбора типа платежей
 Route::get('/calc', 'CalcController@calc_list')->name('calc_list');
 //Страница для ввода данных о кредите с ануитетной схемой платежей
@@ -39,6 +39,10 @@ Route::get('/calc/differ', 'CalcController@calc_input')->defaults('type', 'diffe
 Route::get('/calc/flex', 'CalcController@calc_input')->defaults('type', 'flex')->name('calc_flex');
 //Расчет графика платежей в требуемом формате (html для всплывающего окна, pdf-файл, xls-файл)
 Route::post('/calc/calc_graf', 'CalcController@calc')->name('calc_graf');
+
+//РАСЧЕТ КРЕДИНОГО ЛИМИТА
+//Меню
+Route::get('/limit', 'LimitController@limit_list')->name('limit_list')->middleware('auth');
 
 //Аутентификация через социальные сети
 Route::get('auth/{provider}', 'Auth\SocialController@redirectToSocial')->name('auth_social');

@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-<div id="app">
+<div id="app" class="crossbrowser-background">
     <nav class="navbar navbar-expand-md navbar-light shadow-sm opacitybg">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">

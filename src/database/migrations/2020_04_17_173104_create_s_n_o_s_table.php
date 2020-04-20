@@ -4,18 +4,20 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCompaniesTable extends Migration
+class CreateSNOSTable extends Migration
 {
     /**
      * Run the migrations.
-     *
+     *2020_04_20_095233
      * @return void
      */
     public function up()
     {
-        Schema::create('companies', function (Blueprint $table) {
+        Schema::create('s_n_o_s', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->char('brief_name', 10);
+            $table->char('full_name', 100);
+            $table->boolean('cred_limit_affect');
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreateCompaniesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('companies');
+        Schema::dropIfExists('s_n_o_s');
     }
 }

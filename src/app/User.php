@@ -52,4 +52,20 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Avatar');
     }
+
+    /**
+     * Get the gsz associated with the user.
+     */
+    public function gsz()
+    {
+        return $this->hasMany('App\GSZ');
+    }
+
+    /**
+     * Get the company associated with the user.
+     */
+    public function company()
+    {
+        return $this->hasMany('App\Company');
+    }
 }

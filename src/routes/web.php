@@ -43,6 +43,11 @@ Route::post('/calc/calc_graf', 'CalcController@calc')->name('calc_graf');
 //РАСЧЕТ КРЕДИНОГО ЛИМИТА
 //Меню
 Route::get('/limit', 'LimitController@limit_list')->name('limit_list')->middleware('auth');
+//Группы связанных заемщиков пользователя
+Route::get('/limit/gsz', 'LimitController@gsz_list')->name('gsz_list')->middleware('auth');
+Route::post('/limit/gsz/add', 'LimitController@gsz_add')->name('gsz_add')->middleware('auth');
+//Компании группы связанных заемщиков
+Route::get('/limit/gsz/{id}', 'LimitController@company_list')->name('company_list')->middleware('auth');
 
 //Аутентификация через социальные сети
 Route::get('auth/{provider}', 'Auth\SocialController@redirectToSocial')->name('auth_social');

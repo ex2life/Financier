@@ -4,21 +4,23 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSNOSTable extends Migration
+class CreateGSZSTable extends Migration
 {
     /**
      * Run the migrations.
-     *2020_04_20_095233
+     *
      * @return void
      */
     public function up()
     {
-        Schema::create('s_n_o_s', function (Blueprint $table) {
+        Schema::create('gszs', function (Blueprint $table) {
             $table->id();
-            $table->char('brief_name', 10);
-            $table->char('full_name', 100);
-            $table->boolean('cred_limit_affect');
+            $table->char('brief_name', 30);
+            $table->biginteger('user_id')->unsigned();
+            $table->char('full_name', 150)->nullable()->default(Null);
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -29,6 +31,6 @@ class CreateSNOSTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('s_n_o_s');
+        Schema::dropIfExists('gszs');
     }
 }

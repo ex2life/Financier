@@ -24,10 +24,10 @@ function pluralForm($n, $form1, $form2, $form5)
                             <a href="{{ route('company_list', ['id' => $company->id]) }}"
                                class="list-group-item list-group-item-action flex-column align-items-start">
                                 <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">{{$company->brief_name}}</h5>
+                                    <h5 class="mb-1">{{$company->name}}</h5>
                                     <small class="text-muted">Создана {{$company->created_at->diffForHumans()}}</small>
                                 </div>
-                                <p class="mb-1">{{$company->full_name}}</p>
+                                <p class="mb-1">{{$company->inn}}</p>
                             </a>
                         @empty
                             В этой группе пока нет компаний.
@@ -52,7 +52,7 @@ function pluralForm($n, $form1, $form2, $form5)
     <script src="{{ asset('js/limit_app.js') }}" defer></script>
 @endsection
 @section("modal")
-    <div id="addGSZ" class="modal show @if(session('modal')) show @endif" tabindex="-1" role="dialog">
+    <div id="addGSZ" class="modal @if(session('modal')) show @endif" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document" data-show="true">
             <div class="modal-content">
                 <form action="{{ route('company_add', ['id' => $gsz->id]) }}" method="post">
@@ -99,7 +99,7 @@ function pluralForm($n, $form1, $form2, $form5)
                             <div class="col-md-8">
                                 <select id="opf" class="form-control @error('opf') is-invalid @enderror" name="opf"
                                         required>
-                                    @foreach (App\OPF::all() as $opf)
+                                    @foreach (App\Opf::all() as $opf)
                                         <option value="{{$opf->id}}"
                                                 title="{{$opf->full_name}}" {{old("opf") == $opf->id ? "selected":""}}>
                                             {{$opf->brief_name}}
@@ -118,7 +118,7 @@ function pluralForm($n, $form1, $form2, $form5)
                                    class="col-md-4 col-form-label text-md-right">Система налогооблажения</label>
                             <div class="col-md-8">
                                 <select id="sno" class="form-control @error('sno') is-invalid @enderror" name="sno" required>
-                                    @foreach (App\SNO::all() as $sno)
+                                    @foreach (App\Sno::all() as $sno)
                                         <option value="{{$opf->id}}"
                                                 title="{{$sno->full_name}}" {{old("sno") == $sno->id ? "selected":""}}>
                                             {{$sno->brief_name}}

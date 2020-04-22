@@ -58,7 +58,7 @@ class User extends Authenticatable
      */
     public function gsz()
     {
-        return $this->hasMany('App\GSZ');
+        return $this->hasMany('App\Gsz');
     }
 
     /**

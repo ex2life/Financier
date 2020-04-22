@@ -19,7 +19,7 @@ class Company extends Model
      */
     public function gsz()
     {
-        return $this->belongsTo('App\GSZ');
+        return $this->belongsTo('App\Gsz');
     }
 
     /**
@@ -27,7 +27,7 @@ class Company extends Model
      */
     public function opf()
     {
-        return $this->belongsTo('App\OPF');
+        return $this->belongsTo('App\Opf');
     }
 
     /**
@@ -35,6 +35,6 @@ class Company extends Model
      */
     public function sno()
     {
-        return $this->belongsTo('App\SNO');
+        return $this->belongsTo('App\Sno');
     }
 }

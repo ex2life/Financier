@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class OPF extends Model
+class Sno extends Model
 {
     /**
-     * Get the company associated with the opf.
+     * Get the company associated with the sno.
      */
     public function company()
     {

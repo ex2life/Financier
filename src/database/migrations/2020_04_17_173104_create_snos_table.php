@@ -4,21 +4,20 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOPFSTable extends Migration
+class CreateSNOSTable extends Migration
 {
     /**
      * Run the migrations.
-     *
+     *2020_04_20_095233
      * @return void
      */
     public function up()
     {
-        Schema::create('o_p_f_s', function (Blueprint $table) {
+        Schema::create('snos', function (Blueprint $table) {
             $table->id();
             $table->char('brief_name', 10);
             $table->char('full_name', 100);
-            $table->tinyinteger('inn_length')->unsigned();
-            $table->boolean('is_corporation')->comment('Признак того, что компания является организацией (не ИП). У ИП=0, у других = 1.');
+            $table->boolean('cred_limit_affect');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateOPFSTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('o_p_f_s');
+        Schema::dropIfExists('snos');
     }
 }

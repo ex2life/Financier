@@ -18,17 +18,17 @@ class CreateCompaniesTable extends Migration
             $table->char('name', 150);
             $table->biginteger('user_id')->unsigned();
             $table->biginteger('inn')->unsigned();
-            $table->biginteger('g_s_z_id')->unsigned();
-            $table->biginteger('o_p_f_id')->unsigned();
-            $table->biginteger('s_n_o_id')->unsigned();
+            $table->biginteger('gsz_id')->unsigned();
+            $table->biginteger('opf_id')->unsigned();
+            $table->biginteger('sno_id')->unsigned();
             $table->date('date_registr')->nullable()->default(Null);
             $table->date('date_begin_work')->nullable()->default(Null);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('g_s_z_id')->references('id')->on('g_s_z_s');
-            $table->foreign('o_p_f_id')->references('id')->on('o_p_f_s');
-            $table->foreign('s_n_o_id')->references('id')->on('s_n_o_s');
+            $table->foreign('gsz_id')->references('id')->on('gszs');
+            $table->foreign('opf_id')->references('id')->on('opfs');
+            $table->foreign('sno_id')->references('id')->on('snos');
         });
     }
 

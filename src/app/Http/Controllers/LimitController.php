@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\GSZ;
-use App\OPF;
-use App\SNO;
+use App\Company;
+use App\Gsz;
+use App\Opf;
+use App\Sno;
 use App\SocialIdent;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -22,7 +23,7 @@ class LimitController extends Controller
     }
 
     //---------------------------------------------------------------------
-    // Список GSZ пользователя
+    // Список Gsz пользователя
     //---------------------------------------------------------------------
     public function gsz_list()
     {
@@ -30,7 +31,7 @@ class LimitController extends Controller
     }
 
     //---------------------------------------------------------------------
-    // Добавить новую GSZ
+    // Добавить новую Gsz
     //---------------------------------------------------------------------
     public function gsz_add(Request $request)
     {
@@ -44,19 +45,20 @@ class LimitController extends Controller
                 ->withInput()
                 ->withErrors($validator->errors());
         }
-        $gsz = new GSZ();
+        $gsz = new Gsz();
         $gsz->brief_name = $request->brief_name;
         $gsz->full_name = $request->full_name;
-        Auth::user()->gsz()->save($gsz);
+        $gsz->user()->associate(Auth::user());
+        $gsz->save();
         return redirect(route('gsz_list'));
     }
 
     //---------------------------------------------------------------------
-    // Список групп, входящих в GSZ
+    // Список групп, входящих в Gsz
     //---------------------------------------------------------------------
     public function company_list($id)
     {
-        $gsz = GSZ::where('id', $id)->first();
+        $gsz = Gsz::where('id', $id)->first();
         if ($gsz->user_id !== Auth::user()->id) abort(404);
         return view('limit.company',
             ['companies' => $gsz->company,
@@ -74,7 +76,7 @@ class LimitController extends Controller
                 'required',
                 'integer',
                 function ($attribute, $value, $fail) {
-                    if (!OPF::where('id', '=', $value)->exists()) {
+                    if (!Opf::where('id', '=', $value)->exists()) {
                         $fail('Организационно-правовая форма должна быть выбрана из имеющихся!');
                     }
                 },
@@ -83,7 +85,7 @@ class LimitController extends Controller
                 'required',
                 'integer',
                 function ($attribute, $value, $fail) {
-                    if (!SNO::where('id', '=', $value)->exists()) {
+                    if (!Sno::where('id', '=', $value)->exists()) {
                         $fail('Система налогооблажения должна быть выбрана из имеющихся!');
                     }
                 },
@@ -93,7 +95,7 @@ class LimitController extends Controller
                 'integer',
                 'required_with:opf',
                 function ($attribute, $value, $fail) use ($request){
-                    $opf = OPF::where('id', '=', $request->opf )->first();
+                    $opf = Opf::where('id', '=', $request->opf )->first();
                     if ($opf !== null) {
                         if (strlen(strval($value)) !== $opf->inn_length) {
                             $fail('Длина ИНН для ' . $opf->brief_name . ' должна быть ' . $opf->inn_length);
@@ -110,6 +112,18 @@ class LimitController extends Controller
                 ->withInput()
                 ->withErrors($validator->errors());
         }
+        $gsz = Gsz::where('id', '=', $id)->first();
+        if ($gsz->user_id !== Auth::user()->id) abort(404);
+        $company = new Company();
+        $company->name=$request->name_company;
+        $company->inn=intval($request->inn);
+        $company->date_registr=$request->date_registr;
+        $company->date_begin_work=$request->date_begin_work;
+        $company->gsz()->associate(Gsz::where('id', '=', $id)->first());
+        $company->user()->associate(Auth::user());
+        $company->opf()->associate(Opf::where('id', '=', $request->opf )->first());
+        $company->sno()->associate(Sno::where('id', '=', $request->sno )->first());
+        $company->save();
         return redirect(route('company_list', ['id' => $id]));
     }
 

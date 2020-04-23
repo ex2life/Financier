@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Company extends Model
 {
@@ -36,5 +37,11 @@ class Company extends Model
     public function sno()
     {
         return $this->belongsTo('App\Sno');
+    }
+
+    public function monthWork(){
+        $date1 = Carbon::parse($this->date_begin_work);
+        $date2 = Carbon::now();
+       return $date1->diffInMonths($date2);
     }
 }

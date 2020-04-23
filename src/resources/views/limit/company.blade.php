@@ -28,6 +28,7 @@ function pluralForm($n, $form1, $form2, $form5)
                                     <small class="text-muted">Создана {{$company->created_at->diffForHumans()}}</small>
                                 </div>
                                 <p class="mb-1">{{$company->inn}}</p>
+                                <p class="mb-1">{{$company->monthWork()}}</p>
                             </a>
                         @empty
                             В этой группе пока нет компаний.

@@ -44,4 +44,8 @@ class Company extends Model
         $date2 = Carbon::now();
        return $date1->diffInMonths($date2);
     }
+
+    public function work6Month(){
+       return ($this->monthWork()>=6);
+    }
 }

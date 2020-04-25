@@ -18,18 +18,62 @@ function pluralForm($n, $form1, $form2, $form5)
                 <div class="card-header">
                     <h2 class="text-center">{{$gsz->brief_name}}</h2>
                 </div>
+                @if (session('status'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
+                    </div>
+                @endif
+                @if (session('status_info'))
+                    <div class="alert alert-info" role="alert">
+                        {{ session('status_info') }}
+                    </div>
+                @endif
                 <div class="card-body">
-                    <div class="list-group">
+                    <div class="row">
                         @forelse ($companies as $num=>$company)
-                            <a href="{{ route('company_list', ['id' => $company->id]) }}"
-                               class="list-group-item list-group-item-action flex-column align-items-start">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">{{$company->name}}</h5>
-                                    <small class="text-muted">Создана {{$company->created_at->diffForHumans()}}</small>
+                            <div class="col-12 @if (count($companies)>1)col-md-6 @endif">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h4 class="mb-1">{{$company->name}}</h4>
+                                            <div>
+                                                <small
+                                                    class="text-muted">Создана {{$company->created_at->diffForHumans()}}</small>&ensp;
+                                                <a data-toggle="modal"
+                                                   data-company_action="{{ route('company_edit', ['id' => $company->id]) }}"
+                                                   data-company_name="{{ $company->name }}"
+                                                   data-company_inn="{{ $company->inn }}"
+                                                   data-company_opf="{{ $company->opf->id }}"
+                                                   data-company_sno="{{ $company->sno->id }}"
+                                                   data-company_date_registr="{{ $company->date_registr }}"
+                                                   data-company_date_begin_work="{{ $company->date_begin_work }}"
+                                                   title="Изменить" data-target="#editCompany"><i
+                                                        class="fa fa-pencil fa-fw"></i></a>
+                                                </a>
+                                                <a data-toggle="modal"
+                                                   data-company_del_link="{{ route('company_delete', ['id' => $company->id]) }}"
+                                                   data-company_edit="False"
+                                                   title="Удалить" data-target="#confirmDeleteCompany"><i
+                                                        class="fa fa-trash fa-fw"></i></a>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <p class="my-1"><strong>Инн:</strong> {{$company->inn}}</p>
+                                        <p class="mb-1"><strong>Организационно-правовая
+                                                форма:</strong> {{$company->opf->brief_name}}</p>
+                                        <p class="mb-1"><strong>Система
+                                                налогооблажения:</strong> {{$company->sno->brief_name}}</p>
+                                        <p class="mb-1"><strong>Зарегистрирована:</strong> {{$company->date_registr}}
+                                        </p>
+                                        <p class="mb-1"><strong>Начало
+                                                деятельности:</strong> {{$company->date_begin_work}}</p>
+                                        @if (!$company->work6Month())
+                                            <small
+                                                class="text-info">Компания не будет учитываться в расчете, так как
+                                                не работает 6 месяцев</small>
+                                        @endif</div>
                                 </div>
-                                <p class="mb-1">{{$company->inn}}</p>
-                                <p class="mb-1">{{$company->monthWork()}}</p>
-                            </a>
+                            </div>
                         @empty
                             В этой группе пока нет компаний.
                         @endforelse
@@ -39,7 +83,7 @@ function pluralForm($n, $form1, $form2, $form5)
                     <div class="row text-right">
                         <div class="col-12">
                             <button type="button" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#addGSZ">
+                                    data-target="#newCompany">
                                 Создать компанию
                             </button>
                             <a type="button" class="btn btn-secondary" href="{{ route('gsz_list') }}">Назад</a>
@@ -50,128 +94,40 @@ function pluralForm($n, $form1, $form2, $form5)
         </div>
     </div>
     <!-- Scripts -->
-    <script src="{{ asset('js/limit_app.js') }}" defer></script>
-@endsection
-@section("modal")
-    <div id="addGSZ" class="modal @if(session('modal')) show @endif" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg" role="document" data-show="true">
+    <script src="{{url('/js/limit_app.js')}}" defer></script>
+    @include('limit.bodymodal_Company',
+        ['id_modal' =>  'newCompany',
+        'action'    =>  route('company_add', ['id' => $gsz->id]),
+        'title'     =>  'Создание компании',
+        'button'    =>  'Создать компанию',
+        'pref'      =>  ''])
+    @include('limit.bodymodal_Company',
+        ['id_modal' =>  'editCompany',
+        'action'    =>  route('company_edit', ['id' => session('company_id') ? session('company_id'):'0']),
+        'title'     =>  'Изменение компании',
+        'button'    =>  'Изменить компанию',
+        'pref'      =>  'edit_'])
+    <div id="confirmDeleteCompany" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-sm">
             <div class="modal-content">
-                <form action="{{ route('company_add', ['id' => $gsz->id]) }}" method="post">
-                    @csrf
-                    <div class="modal-header">
-                        <h5 class="modal-title">Создание компании</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div id="text-popup" class="modal-body">
-                        <div class="form-group row">
-                            <label for="name_company"
-                                   class="col-md-4 col-form-label text-md-right">Название компании</label>
-                            <div class="col-md-8">
-                                <input id="name_company" type="text"
-                                       class="form-control @error('name_company') is-invalid @enderror"
-                                       name="name_company"
-                                       value="{{ old('name_company') }}" required autofocus>
-                                @error('name_company')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="inn"
-                                   class="col-md-4 col-form-label text-md-right">Инн</label>
-                            <div class="col-md-8">
-                                <input id="inn" type="number"
-                                       class="form-control @error('inn') is-invalid @enderror" name="inn"
-                                       value="{{ old('inn') }}" required>
-                                @error('inn')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="opf"
-                                   class="col-md-4 col-form-label text-md-right">Организационно-правовая форма</label>
-                            <div class="col-md-8">
-                                <select id="opf" class="form-control @error('opf') is-invalid @enderror" name="opf"
-                                        required>
-                                    @foreach (App\Opf::all() as $opf)
-                                        <option value="{{$opf->id}}"
-                                                title="{{$opf->full_name}}" {{old("opf") == $opf->id ? "selected":""}}>
-                                            {{$opf->brief_name}}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('opf')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="sno"
-                                   class="col-md-4 col-form-label text-md-right">Система налогооблажения</label>
-                            <div class="col-md-8">
-                                <select id="sno" class="form-control @error('sno') is-invalid @enderror" name="sno" required>
-                                    @foreach (App\Sno::all() as $sno)
-                                        <option value="{{$opf->id}}"
-                                                title="{{$sno->full_name}}" {{old("sno") == $sno->id ? "selected":""}}>
-                                            {{$sno->brief_name}}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('sno')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="date_registr"
-                                   class="col-md-4 col-form-label text-md-right">Дата регистрации</label>
-                            <div class="col-md-8">
-                                <input id="date_registr" type="date"
-                                       class="form-control @error('date_registr') is-invalid @enderror"
-                                       name="date_registr"
-                                       value="{{ old('date_registr') }}" required>
-                                @error('date_registr')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="date_begin_work"
-                                   class="col-md-4 col-form-label text-md-right">Дата начала деятельности</label>
-                            <div class="col-md-8">
-                                <input id="date_begin_work" type="date"
-                                       class="form-control @error('date_begin_work') is-invalid @enderror"
-                                       name="date_begin_work"
-                                       value="{{ old('date_begin_work') }}" required>
-                                @error('date_begin_work')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                                data-dismiss="modal">Закрыть
-                        </button>
-                        <button type="submit" class="btn btn-primary">Создать группу
-                        </button>
-                    </div>
-                </form>
+
+                <!-- header modal -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+
+                <!-- body modal -->
+                <div class="modal-body text-center">
+                    Удаление необратимо.
+                    <hr>
+                    <form id="delForm" method="post">
+                        {{method_field('DELETE')}} {{csrf_field()}}
+                        <button type="submit" value="delete" class="btn btn-danger">Удалить</button>
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>

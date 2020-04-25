@@ -17,7 +17,7 @@ class CreateCompaniesTable extends Migration
             $table->id();
             $table->char('name', 150);
             $table->biginteger('user_id')->unsigned();
-            $table->biginteger('inn')->unsigned();
+            $table->char('inn',12);
             $table->biginteger('gsz_id')->unsigned();
             $table->biginteger('opf_id')->unsigned();
             $table->biginteger('sno_id')->unsigned();

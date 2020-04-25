@@ -48,7 +48,9 @@ Route::get('/limit/gsz', 'LimitController@gsz_list')->name('gsz_list')->middlewa
 Route::post('/limit/gsz/add', 'LimitController@gsz_add')->name('gsz_add')->middleware('auth');
 //Компании группы связанных заемщиков
 Route::get('/limit/gsz/{id}', 'LimitController@company_list')->name('company_list')->middleware('auth');
-Route::post('/limit/gsz/{id}/add', 'LimitController@company_add')->name('company_add')->middleware('auth');
+Route::post('/limit/gsz/{id}/company/add', 'LimitController@company_add')->name('company_add')->middleware('auth');
+Route::delete('/limit/gsz/company/{id}/del', 'LimitController@company_delete')->name('company_delete')->middleware('auth');
+Route::post('/limit/gsz/company/{id}/edit', 'LimitController@company_edit')->name('company_edit')->middleware('auth');
 
 //Аутентификация через социальные сети
 Route::get('auth/{provider}', 'Auth\SocialController@redirectToSocial')->name('auth_social');

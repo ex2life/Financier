@@ -1,6 +1,7 @@
 @extends('layouts.app')
 <?php
-function pluralForm($n, $form1, $form2, $form5) {
+function pluralForm($n, $form1, $form2, $form5)
+{
     $n = abs($n) % 100;
     $n1 = $n % 10;
     if ($n > 10 && $n < 20) return $form5;
@@ -20,13 +21,15 @@ function pluralForm($n, $form1, $form2, $form5) {
                 <div class="card-body">
                     <div class="list-group">
                         @forelse ($gszs as $num=>$gsz)
-                            <a href="{{ route('company_list', ['id' => $gsz->id]) }}" class="list-group-item list-group-item-action flex-column align-items-start">
+                            <a href="{{ route('company_list', ['id' => $gsz->id]) }}"
+                               class="list-group-item list-group-item-action flex-column align-items-start">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">{{$gsz->brief_name}}</h5>
                                     <small class="text-muted">Создана {{$gsz->created_at->diffForHumans()}}</small>
                                 </div>
                                 <p class="mb-1">{{$gsz->full_name}}</p>
-                                <small class="text-muted">{{count($gsz->company).pluralForm(count($gsz->company),' компания', ' компании', ' компаний')}}</small>
+                                <small
+                                    class="text-muted">{{count($gsz->company).pluralForm(count($gsz->company),' компания', ' компании', ' компаний')}}</small>
                             </a>
                         @empty
                             У вас пока нет групп.
@@ -49,8 +52,6 @@ function pluralForm($n, $form1, $form2, $form5) {
     </div>
     <!-- Scripts -->
     <script src="{{ asset('js/limit_app.js') }}" defer></script>
-@endsection
-@section("modal")
     <div id="addGSZ" class="modal @if(session('modal')) show @endif" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document" data-show="true">
             <div class="modal-content">

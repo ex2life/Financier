@@ -1,12 +1,9 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
-
 // Variables
 @import 'variables';
-
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
-
 //font
 @import "~font-awesome/scss/font-awesome.scss";
 
@@ -19,20 +16,22 @@ body {
     -o-background-size: cover;
     background-size: cover;
 }
-body:after{
-    content:"";
-    position:fixed; /* stretch a fixed position to the whole screen */
-    top:0;
-    height:100vh; /* fix for mobile browser address bar appearing disappearing */
-    left:0;
-    right:0;
-    z-index:-1; /* needed to keep in the background */
+
+body:after {
+    content: "";
+    position: fixed; /* stretch a fixed position to the whole screen */
+    top: 0;
+    height: 100vh; /* fix for mobile browser address bar appearing disappearing */
+    left: 0;
+    right: 0;
+    z-index: -1; /* needed to keep in the background */
     background: url(/images/bg.jpg) center center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
 }
+
 .crossbrowser-background {
     position: sticky;
     height: 100%;
@@ -49,17 +48,18 @@ body:after{
 }
 
 .opacitybg {
-    background-color: rgba(255,255,255,.95);
+    background-color: rgba(255, 255, 255, .95);
 }
 
 /* vertical line */
 .vl {
-     position: absolute;
-     left: 42%;
-     transform: translate(-50%);
-     border: 2px solid #ddd;
-     height: 175px;
- }
+    position: absolute;
+    left: 42%;
+    transform: translate(-50%);
+    border: 2px solid #ddd;
+    height: 175px;
+}
+
 /* text inside the vertical line */
 .vl-innertext {
     position: absolute;
@@ -80,6 +80,7 @@ body:after{
     border: 2px solid #ddd;
     width: 250px;
 }
+
 /* text inside the vertical line */
 .gl-innertext {
     position: absolute;
@@ -97,7 +98,7 @@ body:after{
     border-width: 0;
     border-radius: 5px;
     white-space: nowrap;
-    box-shadow: 1px 1px 0px 1px rgba(0,0,0,0.05);
+    box-shadow: 1px 1px 0px 1px rgba(0, 0, 0, 0.05);
     transition-property: background-color, box-shadow;
     transition-duration: 150ms;
     transition-timing-function: ease-in-out;
@@ -105,7 +106,7 @@ body:after{
 
     &:focus,
     &:hover {
-        box-shadow: 1px 4px 5px 1px rgba(0,0,0,0.1);
+        box-shadow: 1px 4px 5px 1px rgba(0, 0, 0, 0.1);
     }
 
     &:active {
@@ -127,83 +128,98 @@ body:after{
     font-weight: bold;
 }
 
-.google-button{
+.google-button {
     background: #FFFFFF;
     color: #737373;
-    font-family: 'Roboto',arial,sans-serif;
+    font-family: 'Roboto', arial, sans-serif;
+
     &:active {
         background-color: #e5e5e5;
     }
 }
 
-.google-icon{
+.google-icon {
     margin: 8px 0 8px 8px;
     width: 18px;
     height: 18px;
 }
 
-.google-text{
+.google-text {
     padding: 0 24px;
 }
 
-.twitter-button{
+.twitter-button {
     background: #1DA1F2;
     color: #FFFFFF;
-    font-family: Helvetica,sans-serif;
+    font-family: Helvetica, sans-serif;
+
     &:active {
         background-color: #1781c2;
     }
 }
 
-.twitter-icon{
+.twitter-icon {
     margin: 2px 0px 0px 8px;
     width: 30px;
     height: 30px;
 }
 
 
-.twitter-text{
+.twitter-text {
     padding: 0 24px 0 12px;
 }
 
-.vk-button{
-     background: #4680C2;
-     color: #FFFFFF;
-     font-family: TT Commons,sans-serif;
-     &:active {
-         background-color: #335e8f;
-     }
- }
+.vk-button {
+    background: #4680C2;
+    color: #FFFFFF;
+    font-family: TT Commons, sans-serif;
 
-.vk-icon{
+    &:active {
+        background-color: #335e8f;
+    }
+}
+
+.vk-icon {
     margin: 2px 0px 0px 8px;
     width: 30px;
     height: 30px;
 }
 
 
-.vk-text{
+.vk-text {
     padding: 0 24px 0 12px;
 }
 
-.facebook-button{
+.facebook-button {
     background: #3b5998;
     color: #FFFFFF;
-    font-family: TT Commons,sans-serif;
+    font-family: TT Commons, sans-serif;
+
     &:active {
         background-color: #2a4887;
     }
 }
 
-.facebook-icon{
+.facebook-icon {
     margin: 2px 0px 0px 8px;
     width: 30px;
     height: 30px;
 }
 
 
-.facebook-text{
+.facebook-text {
     padding: 0 24px 0 12px;
 }
+
+@media (max-width: 767px) {
+
+    .card-deck {
+        display: flex;
+        flex-flow: row wrap;
+        margin-right: -15px;
+        margin-left: -15px;
+    }
+}
+
 
 @import url(https://fonts.googleapis.com/css?family=Roboto:500);

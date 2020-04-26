@@ -11,7 +11,7 @@ function pluralForm($n, $form1, $form2, $form5)
 }
 ?>
 @section('content')
-    <div class="container" id="calc_app">
+    <div class="container " id="calc_app">
         <div class="card mt-md-5 opacitybg">
             <form action="{{ route('calc_graf') }}" id="frmPlatezhParam" method="post">
                 @csrf
@@ -29,56 +29,58 @@ function pluralForm($n, $form1, $form2, $form5)
                     </div>
                 @endif
                 <div class="card-body">
-                    <div class="row">
-                        @forelse ($companies as $num=>$company)
-                            <div class="col-12 @if (count($companies)>1)col-md-6 @endif">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="d-flex w-100 justify-content-between">
-                                            <h4 class="mb-1">{{$company->name}}</h4>
-                                            <div>
-                                                <small
-                                                    class="text-muted">Создана {{$company->created_at->diffForHumans()}}</small>&ensp;
-                                                <a data-toggle="modal"
-                                                   data-company_action="{{ route('company_edit', ['id' => $company->id]) }}"
-                                                   data-company_name="{{ $company->name }}"
-                                                   data-company_inn="{{ $company->inn }}"
-                                                   data-company_opf="{{ $company->opf->id }}"
-                                                   data-company_sno="{{ $company->sno->id }}"
-                                                   data-company_date_registr="{{ $company->date_registr }}"
-                                                   data-company_date_begin_work="{{ $company->date_begin_work }}"
-                                                   title="Изменить" data-target="#editCompany"><i
-                                                        class="fa fa-pencil fa-fw"></i></a>
-                                                </a>
-                                                <a data-toggle="modal"
-                                                   data-company_del_link="{{ route('company_delete', ['id' => $company->id]) }}"
-                                                   data-company_edit="False"
-                                                   title="Удалить" data-target="#confirmDeleteCompany"><i
-                                                        class="fa fa-trash fa-fw"></i></a>
-                                                </a>
+
+                        <div class="row @if (count($companies)>1)row-cols-1 row-cols-md-2 @endif">
+                            @forelse ($companies as $num=>$company)
+                                <div class="col d-flex align-items-stretch @if ($num>1) mt-3 @endif">
+                                    <div class="card w-100">
+                                        <div class="card-body">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h4 class="mb-1">{{$company->name}}</h4>
+                                                <div>
+                                                    <small
+                                                        class="text-muted">Создана {{$company->created_at->diffForHumans()}}</small>&ensp;
+                                                    <a data-toggle="modal"
+                                                       data-company_action="{{ route('company_edit', ['id' => $company->id]) }}"
+                                                       data-company_name="{{ $company->name }}"
+                                                       data-company_inn="{{ $company->inn }}"
+                                                       data-company_opf="{{ $company->opf->id }}"
+                                                       data-company_sno="{{ $company->sno->id }}"
+                                                       data-company_date_registr="{{ $company->date_registr }}"
+                                                       data-company_date_begin_work="{{ $company->date_begin_work }}"
+                                                       title="Изменить" data-target="#editCompany"><i
+                                                            class="fa fa-pencil fa-fw"></i></a>
+                                                    </a>
+                                                    <a data-toggle="modal"
+                                                       data-company_del_link="{{ route('company_delete', ['id' => $company->id]) }}"
+                                                       data-company_edit="False"
+                                                       title="Удалить" data-target="#confirmDeleteCompany"><i
+                                                            class="fa fa-trash fa-fw"></i></a>
+                                                    </a>
+                                                </div>
                                             </div>
+                                            <p class="my-1"><strong>Инн:</strong> {{$company->inn}}</p>
+                                            <p class="mb-1"><strong>Организационно-правовая
+                                                    форма:</strong> {{$company->opf->brief_name}}</p>
+                                            <p class="mb-1"><strong>Система
+                                                    налогооблажения:</strong> {{$company->sno->brief_name}}</p>
+                                            <p class="mb-1"><strong>Зарегистрирована:</strong> {{$company->date_registr}}
+                                            </p>
+                                            <p class="mb-1"><strong>Начало
+                                                    деятельности:</strong> {{$company->date_begin_work}}</p>
+                                            @if (!$company->work6Month())
+                                                <small
+                                                    class="text-info">Компания не будет учитываться в расчете, так как
+                                                    не работает 6 месяцев</small>
+                                            @endif
                                         </div>
-                                        <p class="my-1"><strong>Инн:</strong> {{$company->inn}}</p>
-                                        <p class="mb-1"><strong>Организационно-правовая
-                                                форма:</strong> {{$company->opf->brief_name}}</p>
-                                        <p class="mb-1"><strong>Система
-                                                налогооблажения:</strong> {{$company->sno->brief_name}}</p>
-                                        <p class="mb-1"><strong>Зарегистрирована:</strong> {{$company->date_registr}}
-                                        </p>
-                                        <p class="mb-1"><strong>Начало
-                                                деятельности:</strong> {{$company->date_begin_work}}</p>
-                                        @if (!$company->work6Month())
-                                            <small
-                                                class="text-info">Компания не будет учитываться в расчете, так как
-                                                не работает 6 месяцев</small>
-                                        @endif</div>
+                                    </div>
                                 </div>
-                            </div>
-                        @empty
-                            В этой группе пока нет компаний.
-                        @endforelse
+                            @empty
+                                В этой группе пока нет компаний.
+                            @endforelse
+                        </div>
                     </div>
-                </div>
                 <div class="card-footer">
                     <div class="row text-right">
                         <div class="col-12">

@@ -18,17 +18,17 @@ function pluralForm($n, $form1, $form2, $form5)
                 <div class="card-header">
                     <h2 class="text-center">{{$gsz->brief_name}}</h2>
                 </div>
-                @if (session('status'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
-                    </div>
-                @endif
-                @if (session('status_info'))
-                    <div class="alert alert-info" role="alert">
-                        {{ session('status_info') }}
-                    </div>
-                @endif
                 <div class="card-body">
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+                    @if (session('status_info'))
+                        <div class="alert alert-info" role="alert">
+                            {{ session('status_info') }}
+                        </div>
+                    @endif
 
                         <div class="row @if (count($companies)>1)row-cols-1 row-cols-md-2 @endif">
                             @forelse ($companies as $num=>$company)
@@ -49,13 +49,12 @@ function pluralForm($n, $form1, $form2, $form5)
                                                        data-company_date_registr="{{ $company->date_registr }}"
                                                        data-company_date_begin_work="{{ $company->date_begin_work }}"
                                                        title="Изменить" data-target="#editCompany"><i
-                                                            class="fa fa-pencil fa-fw"></i></a>
+                                                            class="fa fa-pencil fa-fw"></i>
                                                     </a>
                                                     <a data-toggle="modal"
                                                        data-company_del_link="{{ route('company_delete', ['id' => $company->id]) }}"
-                                                       data-company_edit="False"
                                                        title="Удалить" data-target="#confirmDeleteCompany"><i
-                                                            class="fa fa-trash fa-fw"></i></a>
+                                                            class="fa fa-trash fa-fw"></i>
                                                     </a>
                                                 </div>
                                             </div>
@@ -97,13 +96,13 @@ function pluralForm($n, $form1, $form2, $form5)
     </div>
     <!-- Scripts -->
     <script src="{{url('/js/limit_app.js')}}" defer></script>
-    @include('limit.bodymodal_Company',
+    @include('limit.modal_Company',
         ['id_modal' =>  'newCompany',
         'action'    =>  route('company_add', ['id' => $gsz->id]),
         'title'     =>  'Создание компании',
         'button'    =>  'Создать компанию',
         'pref'      =>  ''])
-    @include('limit.bodymodal_Company',
+    @include('limit.modal_Company',
         ['id_modal' =>  'editCompany',
         'action'    =>  route('company_edit', ['id' => session('company_id') ? session('company_id'):'0']),
         'title'     =>  'Изменение компании',

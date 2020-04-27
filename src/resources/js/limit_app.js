@@ -8,6 +8,12 @@ $('#confirmDeleteCompany').on('show.bs.modal', function(e) {
     $("#delForm").attr('action', company_del_link);
 });
 
+$('#confirmDeleteGsz').on('show.bs.modal', function(e) {
+    //get data-id attribute of the clicked element
+    var gsz_del_link = $(e.relatedTarget).data('gsz_del_link');
+    $("#delForm").attr('action', gsz_del_link);
+});
+
 
 $('#editCompany').on('show.bs.modal', function(e) {
     var company_name = $(e.relatedTarget).data('company_name');
@@ -18,8 +24,6 @@ $('#editCompany').on('show.bs.modal', function(e) {
     var company_date_registr = $(e.relatedTarget).data('company_date_registr');
     var company_date_begin_work = $(e.relatedTarget).data('company_date_begin_work');
     var modal = $(this);
-    console.log(company_name);
-    console.log(company_name == null);
     if (company_name != null){
         modal.find('.invalid-feedback').remove();
         modal.find('.is-invalid').removeClass('is-invalid');
@@ -33,3 +37,16 @@ $('#editCompany').on('show.bs.modal', function(e) {
     }
 });
 
+$('#editGsz').on('show.bs.modal', function(e) {
+    var gsz_action = $(e.relatedTarget).data('gsz_action');
+    var gsz_brief_name = $(e.relatedTarget).data('gsz_brief_name');
+    var gsz_full_name = $(e.relatedTarget).data('gsz_full_name');
+    var modal = $(this);
+    if (gsz_brief_name != null){
+        modal.find('.invalid-feedback').remove();
+        modal.find('.is-invalid').removeClass('is-invalid');
+        modal.find('#edit_brief_name').val(gsz_brief_name);
+        modal.find('#edit_full_name').val(gsz_full_name);
+        modal.find("#edit_gszForm").attr('action', gsz_action);
+    }
+});

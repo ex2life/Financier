@@ -1,60 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Limit;
 
 use App\Company;
 use App\Gsz;
+use App\Http\Controllers\Controller;
 use App\Opf;
 use App\Sno;
-use App\SocialIdent;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
-class LimitController extends Controller
+class CompanyController extends Controller
 {
-    //---------------------------------------------------------------------
-    // Страница меню
-    //---------------------------------------------------------------------
-    public function limit_list()
-    {
-        return view('limit.list');
-    }
 
     //---------------------------------------------------------------------
-    // Список Gsz пользователя
-    //---------------------------------------------------------------------
-    public function gsz_list()
-    {
-        return view('limit.gsz', ['gszs' => Auth::user()->gsz]);
-    }
-
-    //---------------------------------------------------------------------
-    // Добавить новую Gsz
-    //---------------------------------------------------------------------
-    public function gsz_add(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'brief_name' => 'required|string|max:30',
-            'full_name' => 'required|string|min:6|max:150',
-        ]);
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->with("modal", true)
-                ->withInput()
-                ->withErrors($validator->errors());
-        }
-        $gsz = new Gsz();
-        $gsz->brief_name = $request->brief_name;
-        $gsz->full_name = $request->full_name;
-        $gsz->user()->associate(Auth::user());
-        $gsz->save();
-        return redirect(route('gsz_list'));
-    }
-
-    //---------------------------------------------------------------------
-    // Список групп, входящих в Gsz
+    // Список компаний, входящих в Gsz
     //---------------------------------------------------------------------
     public function company_list($id)
     {
@@ -65,6 +27,7 @@ class LimitController extends Controller
                 'gsz' => $gsz]);
     }
 
+
     //---------------------------------------------------------------------
     // Добавить новую компанию
     //---------------------------------------------------------------------
@@ -73,7 +36,6 @@ class LimitController extends Controller
         $validator = $this->validator_company($request, '');
         if ($validator->fails()) {
             return redirect()->back()
-                ->with("action", route('company_add', ['id' => $id]))
                 ->with("newCompany", true)
                 ->withInput()
                 ->withErrors($validator->errors());
@@ -158,7 +120,7 @@ class LimitController extends Controller
         return DB::connection()->getDoctrineColumn($table, $column)->getLength();
     }
 
-    //Валидатор
+    //Валидатор компаний
     public function validator_company(Request $request, String $pref)
     {
         return $validator = Validator::make($request->all(), [
@@ -199,5 +161,4 @@ class LimitController extends Controller
             $pref . 'date_begin_work' => 'required|string|before_or_equal:today|after_or_equal:' . $pref . 'date_registr',
         ]);
     }
-
 }

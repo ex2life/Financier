@@ -42,15 +42,17 @@ Route::post('/calc/calc_graf', 'CalcController@calc')->name('calc_graf');
 
 //РАСЧЕТ КРЕДИНОГО ЛИМИТА
 //Меню
-Route::get('/limit', 'LimitController@limit_list')->name('limit_list')->middleware('auth');
+Route::get('/limit', 'Limit\LimitController@limit_list')->name('limit_list')->middleware('auth');
 //Группы связанных заемщиков пользователя
-Route::get('/limit/gsz', 'LimitController@gsz_list')->name('gsz_list')->middleware('auth');
-Route::post('/limit/gsz/add', 'LimitController@gsz_add')->name('gsz_add')->middleware('auth');
+Route::get('/limit/gsz', 'Limit\GszController@gsz_list')->name('gsz_list')->middleware('auth');
+Route::post('/limit/gsz/add', 'Limit\GszController@gsz_add')->name('gsz_add')->middleware('auth');
+Route::delete('/limit/gsz/{id}/del', 'Limit\GszController@gsz_delete')->name('gsz_delete')->middleware('auth');
+Route::post('/limit/gsz/{id}/edit', 'Limit\GszController@gsz_edit')->name('gsz_edit')->middleware('auth');
 //Компании группы связанных заемщиков
-Route::get('/limit/gsz/{id}', 'LimitController@company_list')->name('company_list')->middleware('auth');
-Route::post('/limit/gsz/{id}/company/add', 'LimitController@company_add')->name('company_add')->middleware('auth');
-Route::delete('/limit/gsz/company/{id}/del', 'LimitController@company_delete')->name('company_delete')->middleware('auth');
-Route::post('/limit/gsz/company/{id}/edit', 'LimitController@company_edit')->name('company_edit')->middleware('auth');
+Route::get('/limit/gsz/{id}', 'Limit\CompanyController@company_list')->name('company_list')->middleware('auth');
+Route::post('/limit/gsz/{id}/company/add', 'Limit\CompanyController@company_add')->name('company_add')->middleware('auth');
+Route::delete('/limit/gsz/company/{id}/del', 'Limit\CompanyController@company_delete')->name('company_delete')->middleware('auth');
+Route::post('/limit/gsz/company/{id}/edit', 'Limit\CompanyController@company_edit')->name('company_edit')->middleware('auth');
 
 //Аутентификация через социальные сети
 Route::get('auth/{provider}', 'Auth\SocialController@redirectToSocial')->name('auth_social');

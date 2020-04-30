@@ -53,6 +53,11 @@ Route::get('/limit/gsz/{id}', 'Limit\CompanyController@company_list')->name('com
 Route::post('/limit/gsz/{id}/company/add', 'Limit\CompanyController@company_add')->name('company_add')->middleware('auth');
 Route::delete('/limit/gsz/company/{id}/del', 'Limit\CompanyController@company_delete')->name('company_delete')->middleware('auth');
 Route::post('/limit/gsz/company/{id}/edit', 'Limit\CompanyController@company_edit')->name('company_edit')->middleware('auth');
+//Финансовые данные
+Route::get('/limit/gsz_dates', 'Limit\GszController@gsz_dates')->name('gsz_dates')->middleware('auth');
+Route::get('/limit/gsz_dates/{id}', 'Limit\CompanyController@company_finance_list')->name('company_finance_list')->middleware('auth');
+Route::post('/limit/gsz_dates/{id}/edit', 'Limit\GszController@gsz_edit_date')->name('gsz_date_edit')->middleware('auth');
+Route::get('/limit/gsz_dates/balance/{id}', 'Limit\LimitController@company_balance')->name('company_balance')->middleware('auth');
 
 //Аутентификация через социальные сети
 Route::get('auth/{provider}', 'Auth\SocialController@redirectToSocial')->name('auth_social');

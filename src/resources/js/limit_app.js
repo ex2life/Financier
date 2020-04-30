@@ -50,3 +50,17 @@ $('#editGsz').on('show.bs.modal', function(e) {
         modal.find("#edit_gszForm").attr('action', gsz_action);
     }
 });
+
+$('#editDate').on('show.bs.modal', function(e) {
+    var gsz_date_action = $(e.relatedTarget).data('gsz_date_action');
+    var gsz_brief_name = $(e.relatedTarget).data('gsz_brief_name');
+    var gsz_date = $(e.relatedTarget).data('gsz_date');
+    var modal = $(this);
+    if (gsz_brief_name != null){
+        modal.find('.invalid-feedback').remove();
+        modal.find('.is-invalid').removeClass('is-invalid');
+        modal.find('#modal-title').text('Дата расчета лимита для '+gsz_brief_name);
+        modal.find('#date_calc_limit').val(gsz_date);
+        modal.find("#editDateForm").attr('action', gsz_date_action);
+    }
+});

@@ -25,8 +25,8 @@ class CreateCompaniesTable extends Migration
             $table->date('date_begin_work')->nullable()->default(Null);
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('gsz_id')->references('id')->on('gszs');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');;
+            $table->foreign('gsz_id')->references('id')->on('gszs')->onDelete('cascade');;
             $table->foreign('opf_id')->references('id')->on('opfs');
             $table->foreign('sno_id')->references('id')->on('snos');
         });

@@ -27,6 +27,18 @@ class CompanyController extends Controller
                 'gsz' => $gsz]);
     }
 
+    //---------------------------------------------------------------------
+    // Список компаний, входящих в Gsz
+    //---------------------------------------------------------------------
+    public function company_finance_list($id)
+    {
+        $gsz = Gsz::where('id', $id)->first();
+        if ($gsz->user_id !== Auth::user()->id) abort(404);
+        return view('limit.company_finance_list',
+            ['companies' => $gsz->company_work6Month(),
+                'gsz' => $gsz]);
+    }
+
 
     //---------------------------------------------------------------------
     // Добавить новую компанию

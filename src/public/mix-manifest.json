@@ -1,6 +1,8 @@
 {
+    "/js/404.js": "/js/404.js",
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
+    "/css/404.css": "/css/404.css",
     "/js/calc_app.js": "/js/calc_app.js",
     "/js/limit_app.js": "/js/limit_app.js"
 }

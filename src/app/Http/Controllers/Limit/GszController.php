@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Limit;
 
+use App\DateCalcLimit;
 use App\Gsz;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -18,6 +20,14 @@ class GszController extends Controller
     public function gsz_list()
     {
         return view('limit.gsz', ['gszs' => Auth::user()->gsz]);
+    }
+
+    //---------------------------------------------------------------------
+    // Список Gsz пользователя с датами расчета лимитов
+    //---------------------------------------------------------------------
+    public function gsz_dates()
+    {
+        return view('limit.gsz_dates', ['gszs' => Auth::user()->gsz]);
     }
 
     //---------------------------------------------------------------------
@@ -63,6 +73,35 @@ class GszController extends Controller
     }
 
     //---------------------------------------------------------------------
+    // Изменить дату расчета кредитного лимита Gsz
+    //---------------------------------------------------------------------
+    public function gsz_edit_date(Request $request, $id)
+    {
+        $gsz = Gsz::where('id', '=', $id)->first();
+        $validator = Validator::make($request->all(), [
+            'date_calc_limit' => 'required|string',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->with("modal", true)
+                ->with("gsz_id", $id)
+                ->withInput()
+                ->withErrors($validator->errors());
+        }
+        if ($gsz->user_id !== Auth::user()->id) abort(404);
+        $gsz->date_calc_limit->balance_dates->each(function ($balance_date, $key) {
+            $balance_date->date_calc_limit()->dissociate();
+            return $balance_date->save();
+        });
+        $gsz->date_calc_limit->delete();
+        $date_calc_limit=new DateCalcLimit(['date'=>$request->date_calc_limit]);
+        $date_calc_limit->gsz()->associate($gsz);
+        $date_calc_limit->save();
+        return redirect()->back()
+            ->with('status', 'Изменено успешно');
+    }
+
+    //---------------------------------------------------------------------
     // Удалить GSZ
     //---------------------------------------------------------------------
     public function gsz_delete($id)
@@ -70,7 +109,6 @@ class GszController extends Controller
 
         $gsz = Gsz::where('id', '=', $id)->first();
         if ($gsz->user_id !== Auth::user()->id) abort(404);
-        $gsz->company()->delete();
         $gsz->delete();
         return redirect(route('gsz_list'))
             ->with('status', 'Компания удалена успешно');

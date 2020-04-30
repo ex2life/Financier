@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGSZSTable extends Migration
+class CreateDateCalcLimitsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateGSZSTable extends Migration
      */
     public function up()
     {
-        Schema::create('gszs', function (Blueprint $table) {
+        Schema::create('date_calc_limits', function (Blueprint $table) {
             $table->id();
-            $table->char('brief_name', 30);
-            $table->biginteger('user_id')->unsigned();
-            $table->char('full_name', 150)->nullable()->default(Null);
+            $table->date('date')->nullable(false);
+            $table->biginteger('gsz_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');;
+            $table->foreign('gsz_id')->references('id')->on('gszs')->onDelete('cascade');
         });
     }
 
@@ -31,6 +30,6 @@ class CreateGSZSTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gszs');
+        Schema::dropIfExists('date_calc_limits');
     }
 }

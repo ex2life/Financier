@@ -9,7 +9,7 @@
                href="{{ route('calc_differ') }}">Дифференцированный платеж</a>
             <a class="mt-3 btn btn-light btn-lg col-10 offset-1 col-md-4 offset-md-8"
                href="{{ route('calc_flex') }}">Гибкий график погашения</a>
-            <a class="mt-3 btn btn-light btn-lg col-10 offset-1 col-md-4 offset-md-8"
+            <a class="mt-3 btn btn-secondary btn-lg col-10 offset-1 col-md-4 offset-md-8"
                href="{{ route('index') }}">Назад</a>
         </div>
     </div>

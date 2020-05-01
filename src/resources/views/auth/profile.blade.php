@@ -101,8 +101,6 @@
             </div>
         </div>
     </div>
-@endsection
-@section('modal')
     <div id="newAvatarModal" class="modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

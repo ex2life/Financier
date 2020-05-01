@@ -93,6 +93,12 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
+function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 $(document).ready(function () {
   $('.modal.show').modal('show');
 });
@@ -154,6 +160,89 @@ $('#editDate').on('show.bs.modal', function (e) {
     modal.find('#modal-title').text('Дата расчета лимита для ' + gsz_brief_name);
     modal.find('#date_calc_limit').val(gsz_date);
     modal.find("#editDateForm").attr('action', gsz_date_action);
+  }
+});
+var calc_app = new Vue({
+  el: '#limit_app',
+  data: {},
+  methods: {
+    summing: function summing(_ref) {
+      var target = _ref.target;
+      var parent_code = target.getAttribute('data-parent-code');
+      var childElements = $('.' + parent_code);
+      var sum = 0;
+
+      var _iterator = _createForOfIteratorHelper(childElements),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          child = _step.value;
+          sum += parseInt(child.value);
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      $('#' + parent_code).val(sum);
+      $('#' + parent_code + 'div').text(sum);
+      var section_code = target.getAttribute('data-section-code');
+      childElements = $('.' + section_code);
+      sum = 0;
+
+      var _iterator2 = _createForOfIteratorHelper(childElements),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          child = _step2.value;
+          sum += parseInt(child.value);
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+
+      $('#' + section_code).text(sum);
+      var part = target.getAttribute('data-part');
+      childElements = $('.' + part);
+      sum = 0;
+
+      var _iterator3 = _createForOfIteratorHelper(childElements),
+          _step3;
+
+      try {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          child = _step3.value;
+          sum += parseInt(child.innerText);
+        }
+      } catch (err) {
+        _iterator3.e(err);
+      } finally {
+        _iterator3.f();
+      }
+
+      $('#' + part).text(sum);
+      var parts = part.slice(0, -1);
+      var alert = $('#' + parts);
+      var balance_id = target.getAttribute('data-balance-id');
+      var button = $('#but' + balance_id);
+
+      if (parseInt($('#' + parts + '1').text()) == parseInt($('#' + parts + '0').text())) {
+        alert.removeClass('alert-danger');
+        alert.text('Все хорошо, пассив равен активу.');
+        alert.addClass('alert-success');
+        button.prop('disabled', false);
+      } else {
+        alert.removeClass('alert-success');
+        alert.text('Пассив не равен активу! Сохранение не возможно!');
+        alert.addClass('alert-danger');
+        button.prop('disabled', true);
+      }
+    }
   }
 });
 

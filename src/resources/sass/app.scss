@@ -211,15 +211,16 @@ body:after {
     padding: 0 24px 0 12px;
 }
 
-@media (max-width: 767px) {
 
-    .card-deck {
-        display: flex;
-        flex-flow: row wrap;
-        margin-right: -15px;
-        margin-left: -15px;
-    }
+.sticky-top { top: 1em; }
+
+.without-arrow::-webkit-outer-spin-button,
+.without-arrow::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
-
+.without-arrow {
+    -moz-appearance: textfield;
+}
 
 @import url(https://fonts.googleapis.com/css?family=Roboto:500);

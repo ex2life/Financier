@@ -16,6 +16,14 @@ class BalanceDate extends Model
     }
 
     /**
+     * Get the gsz that owns company.
+     */
+    public function company()
+    {
+        return $this->belongsTo('App\Company');
+    }
+
+    /**
      * Get the result associated with the balance
      */
     public function balance_results()

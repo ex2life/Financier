@@ -64,3 +64,51 @@ $('#editDate').on('show.bs.modal', function(e) {
         modal.find("#editDateForm").attr('action', gsz_date_action);
     }
 });
+
+const calc_app = new Vue({
+    el: '#limit_app',
+    data: {
+    },
+    methods: {
+        summing({target}) {
+            var parent_code=target.getAttribute('data-parent-code');
+            var childElements = $('.'+parent_code);
+            var sum=0;
+            for(child of childElements) {
+                sum+=parseInt(child.value);
+            }
+            $('#'+parent_code).val(sum);
+            $('#'+parent_code+'div').text(sum);
+            var section_code=target.getAttribute('data-section-code');
+            childElements = $('.'+section_code);
+            sum=0;
+            for(child of childElements) {
+                sum+=parseInt(child.value);
+            }
+            $('#'+section_code).text(sum);
+            var part=target.getAttribute('data-part');
+            childElements = $('.'+part);
+            sum=0;
+            for(child of childElements) {
+                sum+=parseInt(child.innerText);
+            }
+            $('#'+part).text(sum);
+            var parts=part.slice(0, -1);
+            var alert= $('#'+parts);
+            var balance_id=target.getAttribute('data-balance-id');
+            var button= $('#but'+balance_id);
+            if (parseInt($('#'+parts+'1').text())==parseInt($('#'+parts+'0').text())){
+                alert.removeClass('alert-danger');
+                alert.text('Все хорошо, пассив равен активу.');
+                alert.addClass('alert-success');
+                button.prop('disabled', false);
+            }
+            else{
+                alert.removeClass('alert-success');
+                alert.text('Пассив не равен активу! Сохранение не возможно!');
+                alert.addClass('alert-danger');
+                button.prop('disabled', true);
+            }
+        },
+    },
+});

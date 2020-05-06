@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Limit;
 
 use App\BalanceDate;
 use App\Company;
+use App\Gsz;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -38,15 +40,6 @@ class LimitController extends Controller
         if ($company->user_id !== Auth::user()->id) abort(404);
         return view('limit.company_finance_result',
             ['company' => $company, 'balance_dates' => $company->actual_balance_dates()]);
-    }
-
-    //---------------------------------------------------------------------
-    // Данные кредитов
-    //---------------------------------------------------------------------
-    public function credit_info()
-    {
-        return view('limit.gsz_credit_info',
-            ['gszs' => Auth::user()->gsz]);
     }
 
     //---------------------------------------------------------------------
@@ -89,6 +82,34 @@ class LimitController extends Controller
             }
         }
         return redirect(route('company_finance_result', ['id' => $balance_date->company->id]));
+    }
+
+    //---------------------------------------------------------------------
+    // Изменение данных о кредите
+    //---------------------------------------------------------------------
+    public function credit_info_edit(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'sum' => 'required|numeric|gt:0',
+            'stavka' => 'required|numeric|gt:0|lte:100',
+            'month' => 'required|numeric|gt:0',
+    ]);
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->with("gsz_id", $id)
+                ->with("modal", true)
+                ->withInput()
+                ->withErrors($validator->errors());
+        }
+        $gsz = Gsz::where('id', '=', $id)->first();
+        if ($gsz->user_id !== Auth::user()->id) abort(404);
+        $credit_info=$gsz->credit_info;
+        $credit_info->sum=$request->sum;
+        $credit_info->month=$request->month;
+        $credit_info->stavka=$request->stavka;
+        $credit_info->save();
+
+        return redirect(route('credit_info'));
     }
 
 

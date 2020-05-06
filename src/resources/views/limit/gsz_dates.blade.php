@@ -108,7 +108,6 @@ function pluralForm($n, $form1, $form2, $form5)
                                 @enderror
                             </div>
                         </div>
-                        <small class="text-danger">Балансы заполненные на текущую дату будут удалены.</small>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"

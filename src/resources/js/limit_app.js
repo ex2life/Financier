@@ -65,6 +65,24 @@ $('#editDate').on('show.bs.modal', function(e) {
     }
 });
 
+$('#editCreditInfo').on('show.bs.modal', function(e) {
+    var credit_info_action = $(e.relatedTarget).data('credit_info_action');
+    var gsz_name = $(e.relatedTarget).data('gsz_name');
+    var credit_info_month = $(e.relatedTarget).data('credit_info_month');
+    var credit_info_sum = $(e.relatedTarget).data('credit_info_sum');
+    var credit_info_stavka = $(e.relatedTarget).data('credit_info_stavka');
+    var modal = $(this);
+    if (gsz_name != null){
+        modal.find('.invalid-feedback').remove();
+        modal.find('.is-invalid').removeClass('is-invalid');
+        modal.find('#modal-title').text('Данные кредита для '+gsz_name);
+        modal.find('#month').val(credit_info_month);
+        modal.find('#sum').val(credit_info_sum);
+        modal.find('#stavka').val(credit_info_stavka);
+        modal.find("#editCreditInfo").attr('action', credit_info_action);
+    }
+});
+
 const calc_app = new Vue({
     el: '#limit_app',
     data: {

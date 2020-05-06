@@ -16,6 +16,14 @@ class Gsz extends Model
     }
 
     /**
+     * Get the avatar associated with the user.
+     */
+    public function credit_info()
+    {
+        return $this->hasOne('App\CreditInfo');
+    }
+
+    /**
      * Get the company associated with the gsz.
      */
     public function company()
@@ -57,6 +65,9 @@ class Gsz extends Model
             $date_calc_limit=new DateCalcLimit(['date'=>Carbon::now()]);
             $date_calc_limit->gsz()->associate($model);
             $date_calc_limit->save();
+            $credit_info=new CreditInfo();
+            $credit_info->gsz()->associate($model);
+            $credit_info->save();
         });
     }
 }

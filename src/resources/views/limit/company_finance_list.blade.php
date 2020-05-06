@@ -58,7 +58,7 @@ function pluralForm($n, $form1, $form2, $form5)
                                             @endif
                                             <div class="btn-group btn-group-toggle mt-2">
                                                 <a type="button" class="btn btn-outline-primary" href="{{ route('company_balance', ['id' => $company->id]) }}">Баланс</a>
-                                                <a type="button" class="btn btn-outline-primary" href="#">Финансовые результаты</a>
+                                                <a type="button" class="btn btn-outline-primary" href="{{ route('company_finance_result', ['id' => $company->id]) }}">Финансовые результаты</a>
                                             </div>
                                         </div>
                                     </div>

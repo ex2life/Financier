@@ -16,6 +16,22 @@ server {
 }
 
 server {
+  listen      80;
+  server_name .pma.fin.######;
+
+  location ^~ /.well-known/acme-challenge/ {
+  auth_basic off;
+  allow all;
+  root /usr/share/nginx/html;
+  try_files $uri =404;
+  break;
+  }
+
+  # Redirect to HTTPS
+  location / { return 301 https://pma.fin.######$request_uri; }
+}
+
+server {
   listen      443 ssl http2;
   server_name www.fin.######;
 

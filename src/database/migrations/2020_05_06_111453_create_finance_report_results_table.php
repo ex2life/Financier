@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBalanceResultsTable extends Migration
+class CreateFinanceReportResultsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateBalanceResultsTable extends Migration
      */
     public function up()
     {
-        Schema::create('balance_results', function (Blueprint $table) {
+        Schema::create('finance_report_results', function (Blueprint $table) {
             $table->id();
-            $table->biginteger('balance_article_id')->nullable()->unsigned();
+            $table->biginteger('finance_report_article_id')->nullable()->unsigned();
             $table->biginteger('balance_date_id')->nullable()->unsigned();
-            $table->float('Value')->default('0');
+            $table->float('value')->default('0');
             $table->timestamps();
 
-            $table->foreign('balance_article_id')->references('id')->on('balance_articles');
+            $table->foreign('finance_report_article_id')->references('id')->on('finance_report_articles');
             $table->foreign('balance_date_id')->references('id')->on('balance_dates')->onDelete('cascade');
         });
     }
@@ -32,6 +32,6 @@ class CreateBalanceResultsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('balance_results');
+        Schema::dropIfExists('finance_report_results');
     }
 }

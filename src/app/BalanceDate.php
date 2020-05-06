@@ -31,6 +31,14 @@ class BalanceDate extends Model
         return $this->hasMany('App\BalanceResult');
     }
 
+    /**
+     * Get the result associated with the balance
+     */
+    public function finance_report_results()
+    {
+        return $this->hasMany('App\FinanceReportResult');
+    }
+
     protected static function boot()
     {
         parent::boot();
@@ -39,6 +47,12 @@ class BalanceDate extends Model
                 $result = new BalanceResult();
                 $result->balance_date()->associate($model);
                 $result->balance_article()->associate($article);
+                $result->save();
+            });
+            FinanceReportArticle::all()->each(function ($article, $key) use ($model) {
+                $result = new FinanceReportResult();
+                $result->balance_date()->associate($model);
+                $result->finance_report_article()->associate($article);
                 $result->save();
             });
         });

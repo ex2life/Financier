@@ -59,6 +59,9 @@ Route::get('/limit/gsz_dates/{id}', 'Limit\CompanyController@company_finance_lis
 Route::post('/limit/gsz_dates/{id}/edit', 'Limit\GszController@gsz_edit_date')->name('gsz_date_edit')->middleware('auth');
 Route::get('/limit/gsz_dates/balance/{id}', 'Limit\LimitController@company_balance')->name('company_balance')->middleware('auth');
 Route::post('/limit/gsz_dates/balance/date/{id}/save', 'Limit\LimitController@save_balance')->name('save_balance')->middleware('auth');
+Route::get('/limit/gsz_dates/finance_result/{id}', 'Limit\LimitController@company_finance_result')->name('company_finance_result')->middleware('auth');
+Route::post('/limit/gsz_dates/finance_result/date/{id}/save', 'Limit\LimitController@save_finance_result')->name('save_finance_result')->middleware('auth');
+Route::get('/limit/gsz_credit_info', 'Limit\LimitController@credit_info')->name('credit_info')->middleware('auth');
 
 //Аутентификация через социальные сети
 Route::get('auth/{provider}', 'Auth\SocialController@redirectToSocial')->name('auth_social');

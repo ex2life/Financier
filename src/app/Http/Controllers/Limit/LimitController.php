@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Limit;
 
+use App\BalanceArticle;
 use App\BalanceDate;
+use App\BalanceResult;
 use App\Company;
+use App\FinanceReportArticle;
+use App\FinanceReportResult;
 use App\Gsz;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -109,7 +113,7 @@ class LimitController extends Controller
         $credit_info->stavka=$request->stavka;
         $credit_info->save();
 
-        return redirect(route('credit_info'));
+        return redirect(route('credit_info'))->with('status', 'Данные изменены успешно');
     }
 
 

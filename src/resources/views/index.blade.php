@@ -8,11 +8,11 @@
             <a class="mt-3 btn btn btn-light btn-lg col-10 offset-1 col-md-4 offset-md-8"
                href="{{ route('limit_list') }}">Расчет суммы кредита</a>
             <a class="mt-3 btn btn-light btn-lg col-10 offset-1 col-md-4 offset-md-8"
-               href="#">Финансовый анализ</a>
+               href="{{route('analise_gsz_list')}}">Финансовый анализ</a>
             <a class="mt-3 btn btn-light btn-lg col-10 offset-1 col-md-4 offset-md-8"
                href="#">Управленческая отчетность</a>
             <a class="mt-3 btn btn-light btn-lg col-10 offset-1 col-md-4 offset-md-8"
-               href="#">Анализ инвестиционных проектов</a>
+               href="{{route('profile')}}">Ваш профиль</a>
         </div>
     </div>
 @endsection

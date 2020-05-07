@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers\Limit;
 
+use App\BalanceArticle;
+use App\BalanceResult;
 use App\Company;
+use App\FinanceReportArticle;
+use App\FinanceReportResult;
 use App\Gsz;
 use App\Http\Controllers\Controller;
 use App\Opf;
@@ -25,6 +29,45 @@ class CompanyController extends Controller
         return view('limit.company',
             ['companies' => $gsz->company,
                 'gsz' => $gsz]);
+    }
+
+    //---------------------------------------------------------------------
+    // Список компаний, входящих в Gsz
+    //---------------------------------------------------------------------
+    public function analise_company_list($id)
+    {
+        $gsz = Gsz::where('id', $id)->first();
+        if ($gsz->user_id !== Auth::user()->id) abort(404);
+        return view('analise.company',
+            ['companies' => $gsz->company_work6Month(),
+                'k1' => $gsz->k1(),
+                'k2' => $gsz->k2(),
+                'k3' => $gsz->k3(),
+                'k4' => $gsz->k4(),
+                'k5' => $gsz->k5(),
+                'k5_status' => $gsz->k5_status(),
+                'class_company' => $gsz->class_company(),
+                'gsz' => $gsz]);
+    }
+
+    //---------------------------------------------------------------------
+    // Список компаний, входящих в Gsz
+    //---------------------------------------------------------------------
+    public function analise_company($id)
+    {
+        $company = Company::where('id', $id)->first();
+        if ($company->user_id !== Auth::user()->id) abort(404);
+        return view('analise.analise_company',
+            ['company' => $company,
+                'k1' => $company->k1(),
+                'k2' => $company->k2(),
+                'k3' => $company->k3(),
+                'k4' => $company->k4(),
+                'k5' => $company->k5(),
+                'k5_status' => $company->k5_status(),
+                'class_company' => $company->class_company(),
+                'gsz' => $company->gsz]
+        );
     }
 
     //---------------------------------------------------------------------

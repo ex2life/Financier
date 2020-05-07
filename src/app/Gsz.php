@@ -70,4 +70,52 @@ class Gsz extends Model
             $credit_info->save();
         });
     }
+
+    //КОЭФФИЦЕНТЫ
+    public function k1($credit=false)
+    {
+        return $this->company_work6Month()->avg(function ($company) use($credit) {
+            return $company->k1($credit);
+        });
+
+    }
+    public function k2($credit=false)
+    {
+        return $this->company_work6Month()->avg(function ($company) use($credit) {
+            return $company->k2($credit);
+        });
+    }
+    public function k3($credit=false)
+    {
+        return $this->company_work6Month()->avg(function ($company) use($credit) {
+            return $company->k3($credit);
+        });
+    }
+    public function k4($credit=false)
+    {
+        return $this->company_work6Month()->avg(function ($company) use($credit) {
+            return $company->k4($credit);
+        });
+    }
+    public function k5($credit=false)
+    {
+        return $this->company_work6Month()->avg(function ($company) use($credit) {
+            return $company->k5($credit);
+        });
+    }
+    public function k5_status($credit=false)
+    {
+        return $this->company_work6Month()->avg(function ($company) use($credit) {
+            return $company->k5_status($credit);
+        });
+    }
+
+    public function class_company($credit = false)
+    {
+        return $this->company_work6Month()->avg(function ($company) use ($credit) {
+            return $company->class_company($credit);
+        });
+
+    }
+
 }

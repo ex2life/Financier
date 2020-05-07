@@ -181,7 +181,7 @@ function pluralForm($n, $form1, $form2, $form5)
                         <button type="button" class="btn btn-secondary"
                                 data-dismiss="modal">Закрыть
                         </button>
-                        <button type="submit" class="btn btn-primary">Изменить дату
+                        <button type="submit" class="btn btn-primary">Изменить данные
                         </button>
                     </div>
                 </form>

@@ -273,7 +273,7 @@ class Company extends Model
         $ko = $ko1 + $ko2 + $ko5;
         if ($credit) {
             $gsz = $this->gsz;
-            $ko = $ko + $gsz->credit_info->sum / count($gsz->company_work6Month());
+            $ko = $ko + ($gsz->credit_info->sum*($gsz->credit_info->stavka/100+1)) / count($gsz->company_work6Month());
         }
         if ($ko == 0) $ko++;
         return $ko;

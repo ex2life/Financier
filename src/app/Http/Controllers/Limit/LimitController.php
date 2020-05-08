@@ -47,6 +47,20 @@ class LimitController extends Controller
     }
 
     //---------------------------------------------------------------------
+    // Страница c финансовыми результатами
+    //---------------------------------------------------------------------
+    public function credit_limit($id)
+    {
+        $gsz = GSZ::where('id', '=', $id)->first();
+        if ($gsz->user_id !== Auth::user()->id) abort(404);
+        return view('limit.credit_limit',
+            [
+                'gsz' => $gsz,
+                'class_company' => $gsz->class_company(true)
+            ]);
+    }
+
+    //---------------------------------------------------------------------
     // Сохранение баланса
     //---------------------------------------------------------------------
     public function save_balance(Request $request, $id)
@@ -59,8 +73,8 @@ class LimitController extends Controller
                     return
                         ($result->balance_article->code == $code);
                 });
-            if (isset($result)){
-                $result->value=$value;
+            if (isset($result)) {
+                $result->value = $value;
                 $result->save();
             }
         }
@@ -80,8 +94,8 @@ class LimitController extends Controller
                     return
                         ($result->finance_report_article->code == $code);
                 });
-            if (isset($result)){
-                $result->value=$value;
+            if (isset($result)) {
+                $result->value = $value;
                 $result->save();
             }
         }
@@ -97,7 +111,7 @@ class LimitController extends Controller
             'sum' => 'required|numeric|gt:0',
             'stavka' => 'required|numeric|gt:0|lte:100',
             'month' => 'required|numeric|gt:0',
-    ]);
+        ]);
         if ($validator->fails()) {
             return redirect()->back()
                 ->with("gsz_id", $id)
@@ -107,10 +121,10 @@ class LimitController extends Controller
         }
         $gsz = Gsz::where('id', '=', $id)->first();
         if ($gsz->user_id !== Auth::user()->id) abort(404);
-        $credit_info=$gsz->credit_info;
-        $credit_info->sum=$request->sum;
-        $credit_info->month=$request->month;
-        $credit_info->stavka=$request->stavka;
+        $credit_info = $gsz->credit_info;
+        $credit_info->sum = $request->sum;
+        $credit_info->month = $request->month;
+        $credit_info->stavka = $request->stavka;
         $credit_info->save();
 
         return redirect(route('credit_info'))->with('status', 'Данные изменены успешно');

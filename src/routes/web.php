@@ -65,6 +65,9 @@ Route::post('/limit/gsz_dates/finance_result/date/{id}/save', 'Limit\LimitContro
 //Данные о кредите
 Route::get('/limit/gsz_credit_info', 'Limit\GszController@credit_info')->name('credit_info')->middleware('auth');
 Route::post('/limit/gsz_credit_info/{id}/edit', 'Limit\LimitController@credit_info_edit')->name('credit_info_edit')->middleware('auth');
+//Кредитный лимит
+Route::get('/limit/gsz_credit_limit', 'Limit\GszController@credit_limit_list')->name('credit_limit_list')->middleware('auth');
+Route::get('/limit/gsz_credit_limit/{id}', 'Limit\LimitController@credit_limit')->name('credit_limit')->middleware('auth');
 
 //Финансовый анализ
 Route::get('/analise/gsz_list', 'Limit\GszController@analise_gsz_list')->name('analise_gsz_list')->middleware('auth');

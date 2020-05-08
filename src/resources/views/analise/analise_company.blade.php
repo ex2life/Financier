@@ -51,7 +51,7 @@ function pluralForm($n, $form1, $form2, $form5)
                                         class="pull-left"><strong>Дата расчета лимита:</strong></span> {{$company->gsz->date_calc_limit->date}}
                                 </li>
                                 <li class="list-group-item text-right"><span
-                                        class="pull-left"><strong>Результаты:</strong></span> <span class="text-success">Хорошо</span> <span class="text-info">Пойдет</span> <span class="text-danger">Все плохо</span>
+                                        class="pull-left"><strong>Результаты:</strong></span> <span class="text-success">Хорошо</span> <span class="text-info">Нормально</span> <span class="text-danger">Плохо</span>
                                 </li>
                             </ul>
                         </div>

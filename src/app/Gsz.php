@@ -74,34 +74,39 @@ class Gsz extends Model
     //КОЭФФИЦЕНТЫ
     public function k1($credit=false)
     {
-        return $this->company_work6Month()->avg(function ($company) use($credit) {
+        $k=$this->company_work6Month()->avg(function ($company) use($credit) {
             return $company->k1($credit);
         });
+        return round($k, 2, PHP_ROUND_HALF_UP);
 
     }
     public function k2($credit=false)
     {
-        return $this->company_work6Month()->avg(function ($company) use($credit) {
+        $k=$this->company_work6Month()->avg(function ($company) use($credit) {
             return $company->k2($credit);
         });
+        return round($k, 2, PHP_ROUND_HALF_UP);
     }
     public function k3($credit=false)
     {
-        return $this->company_work6Month()->avg(function ($company) use($credit) {
+        $k= $this->company_work6Month()->avg(function ($company) use($credit) {
             return $company->k3($credit);
         });
+        return round($k, 2, PHP_ROUND_HALF_UP);
     }
     public function k4($credit=false)
     {
-        return $this->company_work6Month()->avg(function ($company) use($credit) {
+        $k= $this->company_work6Month()->avg(function ($company) use($credit) {
             return $company->k4($credit);
         });
+        return round($k, 2, PHP_ROUND_HALF_UP);
     }
     public function k5($credit=false)
     {
-        return $this->company_work6Month()->avg(function ($company) use($credit) {
+        $k= $this->company_work6Month()->avg(function ($company) use($credit) {
             return $company->k5($credit);
         });
+        return round($k, 2, PHP_ROUND_HALF_UP);
     }
     public function k5_status($credit=false)
     {
@@ -112,9 +117,10 @@ class Gsz extends Model
 
     public function class_company($credit = false)
     {
-        return $this->company_work6Month()->avg(function ($company) use ($credit) {
+        $k= $this->company_work6Month()->avg(function ($company) use ($credit) {
             return $company->class_company($credit);
         });
+        return round($k, 2, PHP_ROUND_HALF_UP);
 
     }
 

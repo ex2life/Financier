@@ -11,9 +11,9 @@
             class="pull-left "><strong>Зарегистрирован</strong></span> {{date("d.m.Y", strtotime($user->created_at))}}
     </li>
     <li class="list-group-item text-right"><span
-            class="pull-left"><strong>Компаний</strong></span> 0
+            class="pull-left"><strong>Компаний</strong></span> {{$user->company->count()}}
     </li>
     <li class="list-group-item text-right"><span
-            class="pull-left"><strong>ГСЗ</strong></span> 0
+            class="pull-left"><strong>ГСЗ</strong></span> {{$user->gsz->count()}}
     </li>
 </ul>

@@ -13,4 +13,10 @@ class CreditInfo extends Model
     {
         return $this->belongsTo('App\Gsz');
     }
+    public function with_stavka()
+    {
+        return $this->sum*($this->stavka/100+1);
+    }
+
+
 }

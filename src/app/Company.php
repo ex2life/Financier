@@ -212,7 +212,7 @@ class Company extends Model
             if ($v1600==0) $v1600++;
             if ($credit) {
                 $gsz = $this->gsz;
-                $v1500 = $v1500 + $gsz->credit_info->sum / count($gsz->company_work6Month());
+                $v1500 = $v1500 + ($gsz->credit_info->with_stavka()) / count($gsz->company_work6Month());
             }
             return ($v1200 - $v1500) / ($v1600);
         });
@@ -237,7 +237,7 @@ class Company extends Model
             $v1500 = $balance_date->get_Razdel_Sum($v1500)->value;
             if ($credit) {
                 $gsz = $this->gsz;
-                $v1500 = $v1500 + $gsz->credit_info->sum / count($gsz->company_work6Month());
+                $v1500 = $v1500 +  ($gsz->credit_info->with_stavka()) / count($gsz->company_work6Month());
             }
             if ($v1400+$v1500==0) $v1500++;
             return ($v1300) / ($v1400+$v1500);
@@ -273,7 +273,7 @@ class Company extends Model
         $ko = $ko1 + $ko2 + $ko5;
         if ($credit) {
             $gsz = $this->gsz;
-            $ko = $ko + ($gsz->credit_info->sum*($gsz->credit_info->stavka/100+1)) / count($gsz->company_work6Month());
+            $ko = $ko + ($gsz->credit_info->with_stavka()) / count($gsz->company_work6Month());
         }
         if ($ko == 0) $ko++;
         return $ko;

@@ -115,7 +115,9 @@ const calc_app = new Vue({
             var alert= $('#'+parts);
             var balance_id=target.getAttribute('data-balance-id');
             var button= $('#but'+balance_id);
-            if (parseInt($('#'+parts+'1').text())==parseInt($('#'+parts+'0').text())){
+            var passiv=parseInt($('#'+parts+'0').text());
+            var activ=parseInt($('#'+parts+'1').text());
+            if (passiv==activ){
                 alert.removeClass('alert-danger');
                 alert.text('Все хорошо, пассив равен активу.');
                 alert.addClass('alert-success');
@@ -123,7 +125,12 @@ const calc_app = new Vue({
             }
             else{
                 alert.removeClass('alert-success');
-                alert.text('Пассив не равен активу! Сохранение не возможно!');
+                if (passiv>activ) {
+                    alert.text('Пассив больше актива на ' + (passiv-activ).toString() + '! Сохранение не возможно!');
+                }
+                else{
+                    alert.text('Актив больше пассива на ' + (activ-passiv).toString() + '! Сохранение не возможно!');
+                }
                 alert.addClass('alert-danger');
                 button.prop('disabled', true);
             }

@@ -74,6 +74,10 @@ Route::get('/analise/gsz_list', 'Limit\GszController@analise_gsz_list')->name('a
 Route::get('/analise/gsz/{id}', 'Limit\CompanyController@analise_company_list')->name('analise_company_list')->middleware('auth');
 Route::get('/analise/gsz/company/{id}', 'Limit\CompanyController@analise_company')->name('analise_company')->middleware('auth');
 
+//Бухгалтерия
+Route::get('/buh', 'Limit\GszController@buh')->name('buh')->middleware('auth');
+Route::get('/buh/finance_result/{id}', 'Limit\LimitController@buh_company_finance_result')->name('buh_company_finance_result')->middleware('auth');
+Route::get('/buh/balance/{id}', 'Limit\LimitController@buh_company_balance')->name('buh_company_balance')->middleware('auth');
 
 //Аутентификация через социальные сети
 Route::get('auth/{provider}', 'Auth\SocialController@redirectToSocial')->name('auth_social');

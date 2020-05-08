@@ -157,7 +157,7 @@
                 <div class="row text-right">
                     <div class="col-12">
                         <a type="button" class="btn btn-secondary"
-                           href="{{ route('company_finance_list', ['id' => $company->gsz->id]) }}">Назад</a>
+                           href="{{ route('buh') }}">Назад</a>
                     </div>
                 </div>
             </div>

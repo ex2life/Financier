@@ -3,7 +3,7 @@
     <div class="container " id="limit_app">
         <div class="card mt-md-5 opacitybg">
             <div class="card-header">
-                <h2 class="text-center">Баланс организации {{$company->name}}</h2>
+                <h2 class="text-center">Финансовые результаты организации {{$company->name}}</h2>
             </div>
             <div class="card-body">
                 @if (session('status'))
@@ -56,14 +56,16 @@
                                     class="tab-pane fade @if (($loop->first) and (!session('balance_id'))) show active @elseif (session('balance_id')==$balance_date->id) show active  @endif"
                                     id="tab{{$balance_date->id}}" role="tabpanel"
                                     aria-labelledby="tab{{$balance_date->id}}-tab">
-                                    <form method="post" action="{{route('save_balance', ['id' => $balance_date->id])}}">
+                                    <form method="post"
+                                          action="{{route('save_finance_result', ['id' => $balance_date->id])}}">
                                         @csrf
                                         <div class="table-responsive">
                                             <table class="table table-striped table-sm">
                                                 <thead>
                                                 <tr>
                                                     <th colspan="3" scope="col" class="text-info">
-                                                        <h3 class="">Актив на {{$balance_date->date_balance}}</h3>
+                                                        <h3 class="">Финансовые результаты
+                                                            на {{$balance_date->date_balance}}</h3>
                                                     </th>
                                                 </tr>
                                                 </thead>
@@ -74,69 +76,23 @@
                                                     <th scope="col">Сумма</th>
                                                 </tr>
                                                 </thead>
-                                                @foreach ($balance_date->get_Corporation_Balance_Active() as $section)
-                                                    @include('limit/company_balance_section')
+                                                @foreach ($balance_date->finance_report_results as $string)
+                                                    <tr>
+                                                        <td class="">{{$string->finance_report_article->description}}</td>
+                                                        <td class="">{{$string->finance_report_article->code}}</td>
+                                                        <td class="text-right"
+                                                            style="min-width: 100px; max-width: 125px;">
+                                                            <input type="number"
+                                                                   class="text-right without-arrow"
+                                                                   name="{{$string->finance_report_article->code}}"
+                                                                   style="width: 100%;" value="{{$string->value}}">
+                                                        </td>
+                                                    </tr>
                                                 @endforeach
-                                                <tfoot>
-                                                <tr>
-                                                    @php //isset для phpshtorm, он считает, что переменной нет.
-                                                if( isset( $balance_date)) $sum_part_balance=$balance_date->get_Balance_Active_Sum();
-                                                    @endphp
-                                                    <th scope="col">
-                                                        <strong>{{$sum_part_balance->balance_article->description}}</strong>
-                                                    </th>
-                                                    <th scope="col">
-                                                        <strong>{{$sum_part_balance->balance_article->code}}</strong>
-                                                    </th>
-                                                    <th scope="col" class="text-right">
-                                                        <strong
-                                                            id="pa{{$balance_date->id}}rt1">{{$sum_part_balance->value}}</strong>
-                                                    </th>
-                                                </tr>
-                                                </tfoot>
-                                            </table>
-                                            <table class="table table-striped table-sm">
-                                                <thead class="mt-4">
-                                                <tr>
-                                                    <th colspan="3" scope="col" class="text-info pt-auto">
-                                                        <h3 class="">Пассив на {{$balance_date->date_balance}}</h3>
-                                                    </th>
-                                                </tr>
-                                                </thead>
-                                                <thead>
-                                                <tr>
-                                                    <th scope="col">Наименование показателя</th>
-                                                    <th scope="col">Код</th>
-                                                    <th scope="col">Сумма</th>
-                                                </tr>
-                                                </thead>
-                                                @foreach ($balance_date->get_Corporation_Balance_Passiv() as $section)
-                                                    @include('limit/company_balance_section')
-                                                @endforeach
-                                                <tfoot>
-                                                <tr>
-                                                    @php //isset для phpshtorm, он считает, что переменной нет.
-                                                if( isset( $balance_date)) $sum_part_balance=$balance_date->get_Balance_Passiv_Sum();
-                                                    @endphp
-                                                    <th scope="col">
-                                                        <strong>{{$sum_part_balance->balance_article->description}}</strong>
-                                                    </th>
-                                                    <th scope="col">
-                                                        <strong>{{$sum_part_balance->balance_article->code}}</strong>
-                                                    </th>
-                                                    <th scope="col" class="text-right">
-                                                        <strong
-                                                            id="pa{{$balance_date->id}}rt0">{{$sum_part_balance->value}}</strong>
-                                                    </th>
-                                                </tr>
-                                                </tfoot>
                                             </table>
                                         </div>
                                         <div class="row">
                                             <div class="col-12 col-md-6">
-                                                <div class="alert alert-success" id="pa{{$balance_date->id}}rt">Все
-                                                    хорошо, пассив равен активу.
-                                                </div>
                                             </div>
                                             <div class="col-12 col-md-6">
                                                 <button id="but{{$balance_date->id}}" class="btn btn-primary w-100"
@@ -157,12 +113,10 @@
                 <div class="row text-right">
                     <div class="col-12">
                         <a type="button" class="btn btn-secondary"
-                           href="{{ route('company_finance_list', ['id' => $company->gsz->id]) }}">Назад</a>
+                           href="{{ route('buh') }}">Назад</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Scripts -->
-    <script src="{{url('/js/limit_app.js')}}" defer></script>
 @endsection

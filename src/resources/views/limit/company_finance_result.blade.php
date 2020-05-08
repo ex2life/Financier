@@ -42,7 +42,7 @@
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             @foreach ($balance_dates as $balance_date)
                                 <li class="nav-item">
-                                    <a class="nav-link @if ($loop->first) active @endif"
+                                    <a class="nav-link @if (($loop->first) and (!session('balance_id'))) active @elseif (session('balance_id')==$balance_date->id) active  @endif"
                                        id="tab{{$balance_date->id}}-tab"
                                        data-toggle="tab" href="#tab{{$balance_date->id}}" role="tab"
                                        aria-controls="tab{{$balance_date->id}}"
@@ -52,10 +52,12 @@
                         </ul>
                         <div class="tab-content" id="myTabContent">
                             @foreach ($balance_dates as $balance_date)
-                                <div class="tab-pane fade @if ($loop->first) show active @endif"
-                                     id="tab{{$balance_date->id}}" role="tabpanel"
-                                     aria-labelledby="tab{{$balance_date->id}}-tab">
-                                    <form method="post" action="{{route('save_finance_result', ['id' => $balance_date->id])}}">
+                                <div
+                                    class="tab-pane fade @if (($loop->first) and (!session('balance_id'))) show active @elseif (session('balance_id')==$balance_date->id) show active  @endif"
+                                    id="tab{{$balance_date->id}}" role="tabpanel"
+                                    aria-labelledby="tab{{$balance_date->id}}-tab">
+                                    <form method="post"
+                                          action="{{route('save_finance_result', ['id' => $balance_date->id])}}">
                                         @csrf
                                         <div class="table-responsive">
                                             <table class="table table-striped table-sm">

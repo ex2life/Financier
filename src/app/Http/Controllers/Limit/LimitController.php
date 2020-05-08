@@ -45,6 +45,26 @@ class LimitController extends Controller
         return view('limit.company_finance_result',
             ['company' => $company, 'balance_dates' => $company->actual_balance_dates()]);
     }
+    //---------------------------------------------------------------------
+    // Страница с балансом
+    //---------------------------------------------------------------------
+    public function buh_company_balance($id)
+    {
+        $company = Company::where('id', '=', $id)->first();
+        return view('buh.company_balance',
+            ['company' => $company, 'balance_dates' => $company->actual_balance_dates()]);
+    }
+
+    //---------------------------------------------------------------------
+    // Страница c финансовыми результатами
+    //---------------------------------------------------------------------
+    public function buh_company_finance_result($id)
+    {
+        $company = Company::where('id', '=', $id)->first();
+        if ($company->user_id !== Auth::user()->id) abort(404);
+        return view('buh.company_finance_result',
+            ['company' => $company, 'balance_dates' => $company->actual_balance_dates()]);
+    }
 
     //---------------------------------------------------------------------
     // Страница c финансовыми результатами
@@ -78,7 +98,7 @@ class LimitController extends Controller
                 $result->save();
             }
         }
-        return redirect(route('company_balance', ['id' => $balance_date->company->id]));
+        return redirect()->back()->with('status', 'Сохранено успешно')->with("balance_id", $balance_date->id);
     }
 
     //---------------------------------------------------------------------
@@ -99,7 +119,7 @@ class LimitController extends Controller
                 $result->save();
             }
         }
-        return redirect(route('company_finance_result', ['id' => $balance_date->company->id]));
+        return redirect()->back()->with('status', 'Сохранено успешно')->with("balance_id", $balance_date->id);;
     }
 
     //---------------------------------------------------------------------

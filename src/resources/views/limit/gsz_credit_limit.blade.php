@@ -16,7 +16,7 @@ function pluralForm($n, $form1, $form2, $form5)
             <form action="{{ route('calc_graf') }}" id="frmPlatezhParam" method="post">
                 @csrf
                 <div class="card-header">
-                    <h2 class="text-center">Данные по кредиту групп связанных заемщиков</h2>
+                    <h2 class="text-center">Оценка кредита для групп заемщиков</h2>
                 </div>
                 <div class="card-body">
                     @if (session('status'))

@@ -5,7 +5,10 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card opacitybg">
-                    <div class="card-header">{{__('Profile')}}</div>
+                    <div class="card-header d-flex w-100 justify-content-between">
+                        <div class="my-auto"><h5>{{__('Profile')}}</h5></div>
+                        <a href="{{route('index')}}" class="btn btn-outline-secondary">Домой <i class="fa fa-home"></i></a>
+                    </div>
 
                     <div class="card-body">
                         @if (session('status'))

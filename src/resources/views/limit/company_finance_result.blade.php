@@ -82,10 +82,12 @@
                                                         <td class="">{{$string->finance_report_article->code}}</td>
                                                         <td class="text-right"
                                                             style="min-width: 100px; max-width: 125px;">
-                                                            <input type="number"
+                                                            <input type="text"
+                                                                   onblur="this.value = this.value.replace(',','.').replace(/[^\d.-]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ' ')"
+                                                                   onfocus="this.value = this.value.replace(/\s/g, '')"
                                                                    class="text-right without-arrow"
                                                                    name="{{$string->finance_report_article->code}}"
-                                                                   style="width: 100%;" value="{{$string->value}}">
+                                                                   style="width: 100%;" value="{{str_replace('.00', '', number_format($string->value, 2, '.', ' '))}}">
                                                         </td>
                                                     </tr>
                                                 @endforeach

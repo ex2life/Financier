@@ -60,7 +60,7 @@ function pluralForm($n, $form1, $form2, $form5)
                                 <li class="list-group-item text-right "><span
                                         class="pull-left "><strong>Требуемая сумма
                                                                 кредита:</strong></span>
-                                    <div class="">{{$gsz->credit_info->sum}}</div>
+                                    <div class="">{{str_replace('.00', '', number_format( $gsz->credit_info->sum, 2, '.', ' '))}}</div>
                                 </li>
                                 <li class="list-group-item text-right "><span
                                         class="pull-left "><strong>Ставка, предложенная
@@ -73,7 +73,7 @@ function pluralForm($n, $form1, $form2, $form5)
                                 </li>
                                 <li class="list-group-item text-right "><span
                                         class="pull-left "><strong>Макс сумма кредита по закону:</strong></span>
-                                    <div class="">{{$gsz->max_n12()}}</div>
+                                    <div class="">{{str_replace('.00', '', number_format( $gsz->max_n12(), 2, '.', ' '))}}</div>
                                 </li>
                                 <li class="list-group-item text-right "><span
                                         class="pull-left "><strong>Кредитоспособность:</strong></span>

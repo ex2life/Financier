@@ -87,7 +87,8 @@ class LimitController extends Controller
     {
         $balance_date = BalanceDate::where('id', '=', $id)->first();
         $results = $balance_date->balance_results;
-        foreach ($request->all() as $code => $value) {
+        foreach ($request->all() as $code => $value_str) {
+            $value=preg_replace("/\s+/","",$value_str);
             $result = $results
                 ->first(function ($result) use ($code) {
                     return
@@ -108,7 +109,8 @@ class LimitController extends Controller
     {
         $balance_date = BalanceDate::where('id', '=', $id)->first();
         $results = $balance_date->finance_report_results;
-        foreach ($request->all() as $code => $value) {
+        foreach ($request->all() as $code => $value_str) {
+            $value=preg_replace("/\s+/","",$value_str);
             $result = $results
                 ->first(function ($result) use ($code) {
                     return

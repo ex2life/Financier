@@ -90,7 +90,7 @@
                                                     </th>
                                                     <th scope="col" class="text-right">
                                                         <strong
-                                                            id="pa{{$balance_date->id}}rt1">{{$sum_part_balance->value}}</strong>
+                                                            id="pa{{$balance_date->id}}rt1">{{str_replace('.00', '', number_format($sum_part_balance->value, 2, '.', ' '))}}</strong>
                                                     </th>
                                                 </tr>
                                                 </tfoot>
@@ -126,7 +126,7 @@
                                                     </th>
                                                     <th scope="col" class="text-right">
                                                         <strong
-                                                            id="pa{{$balance_date->id}}rt0">{{$sum_part_balance->value}}</strong>
+                                                            id="pa{{$balance_date->id}}rt0">{{str_replace('.00', '', number_format($sum_part_balance->value, 2, '.', ' '))}}</strong>
                                                     </th>
                                                 </tr>
                                                 </tfoot>

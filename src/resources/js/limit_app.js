@@ -93,30 +93,33 @@ const calc_app = new Vue({
             var childElements = $('.'+parent_code);
             var sum=0;
             for(child of childElements) {
-                sum+=parseInt(child.value);
+                sum+=parseFloat(child.value.replace(/ /g,""));
             }
-            $('#'+parent_code).val(sum);
-            $('#'+parent_code+'div').text(sum);
+            $('#'+parent_code).val(sum.toFixed(2));
+            $('#'+parent_code+'div').text(sum.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "));
             var section_code=target.getAttribute('data-section-code');
             childElements = $('.'+section_code);
-            sum=0;
+            sum=0.00;
+            flt=0.00;
             for(child of childElements) {
-                sum+=parseInt(child.value);
+                str=child.value.replace(/ /g,"")
+                flt=parseFloat(str)
+                sum+=flt;
             }
-            $('#'+section_code).text(sum);
+            $('#'+section_code).text(parseFloat(sum.toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "));
             var part=target.getAttribute('data-part');
             childElements = $('.'+part);
-            sum=0;
+            sum=0.00;
             for(child of childElements) {
-                sum+=parseInt(child.innerText);
+                sum+=parseFloat(child.innerText.replace(/ /g,""));
             }
-            $('#'+part).text(sum);
+            $('#'+part).text(parseFloat(sum.toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "));
             var parts=part.slice(0, -1);
             var alert= $('#'+parts);
             var balance_id=target.getAttribute('data-balance-id');
             var button= $('#but'+balance_id);
-            var passiv=parseInt($('#'+parts+'0').text());
-            var activ=parseInt($('#'+parts+'1').text());
+            var passiv=parseFloat($('#'+parts+'0').text().replace(/ /g,""));
+            var activ=parseFloat($('#'+parts+'1').text().replace(/ /g,""));
             if (passiv==activ){
                 alert.removeClass('alert-danger');
                 alert.text('Все хорошо, пассив равен активу.');
@@ -126,10 +129,10 @@ const calc_app = new Vue({
             else{
                 alert.removeClass('alert-success');
                 if (passiv>activ) {
-                    alert.text('Пассив больше актива на ' + (passiv-activ).toString() + '! Сохранение не возможно!');
+                    alert.text('Пассив больше актива на ' + parseFloat((passiv-activ).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + '! Сохранение не возможно!');
                 }
                 else{
-                    alert.text('Актив больше пассива на ' + (activ-passiv).toString() + '! Сохранение не возможно!');
+                    alert.text('Актив больше пассива на ' + parseFloat((activ-passiv).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + '! Сохранение не возможно!');
                 }
                 alert.addClass('alert-danger');
                 button.prop('disabled', true);

@@ -62,7 +62,7 @@ function pluralForm($n, $form1, $form2, $form5)
                                                 <div class="d-flex">
                                                     <div class="row ml-0 mb-1">
                                                         <div class=""><strong>Требуемая сумма
-                                                                кредита: </strong>{{$gsz->credit_info->sum}}</div>
+                                                                кредита: </strong>{{str_replace('.00', '', number_format( $gsz->credit_info->sum, 2, '.', ' '))}}</div>
                                                     </div>
                                                 </div>
                                                 <div class="d-flex">

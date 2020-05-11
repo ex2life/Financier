@@ -85,4 +85,4 @@ Route::get('auth/{provider}/del', 'Auth\SocialController@DelSocial')->name('auth
 Route::get('auth/{provider}/callback', 'Auth\SocialController@handleCallback')->name('auth_social_callback');
 
 //deprecated
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');;

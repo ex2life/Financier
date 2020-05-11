@@ -196,7 +196,7 @@ var calc_app = new Vue({
       try {
         for (_iterator.s(); !(_step = _iterator.n()).done;) {
           child = _step.value;
-          sum += parseInt(child.value);
+          sum += parseFloat(child.value.replace(/ /g, ""));
         }
       } catch (err) {
         _iterator.e(err);
@@ -204,11 +204,12 @@ var calc_app = new Vue({
         _iterator.f();
       }
 
-      $('#' + parent_code).val(sum);
-      $('#' + parent_code + 'div').text(sum);
+      $('#' + parent_code).val(sum.toFixed(2));
+      $('#' + parent_code + 'div').text(sum.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "));
       var section_code = target.getAttribute('data-section-code');
       childElements = $('.' + section_code);
-      sum = 0;
+      sum = 0.00;
+      flt = 0.00;
 
       var _iterator2 = _createForOfIteratorHelper(childElements),
           _step2;
@@ -216,7 +217,9 @@ var calc_app = new Vue({
       try {
         for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
           child = _step2.value;
-          sum += parseInt(child.value);
+          str = child.value.replace(/ /g, "");
+          flt = parseFloat(str);
+          sum += flt;
         }
       } catch (err) {
         _iterator2.e(err);
@@ -224,10 +227,10 @@ var calc_app = new Vue({
         _iterator2.f();
       }
 
-      $('#' + section_code).text(sum);
+      $('#' + section_code).text(parseFloat(sum.toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "));
       var part = target.getAttribute('data-part');
       childElements = $('.' + part);
-      sum = 0;
+      sum = 0.00;
 
       var _iterator3 = _createForOfIteratorHelper(childElements),
           _step3;
@@ -235,7 +238,7 @@ var calc_app = new Vue({
       try {
         for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
           child = _step3.value;
-          sum += parseInt(child.innerText);
+          sum += parseFloat(child.innerText.replace(/ /g, ""));
         }
       } catch (err) {
         _iterator3.e(err);
@@ -243,13 +246,13 @@ var calc_app = new Vue({
         _iterator3.f();
       }
 
-      $('#' + part).text(sum);
+      $('#' + part).text(parseFloat(sum.toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "));
       var parts = part.slice(0, -1);
       var alert = $('#' + parts);
       var balance_id = target.getAttribute('data-balance-id');
       var button = $('#but' + balance_id);
-      var passiv = parseInt($('#' + parts + '0').text());
-      var activ = parseInt($('#' + parts + '1').text());
+      var passiv = parseFloat($('#' + parts + '0').text().replace(/ /g, ""));
+      var activ = parseFloat($('#' + parts + '1').text().replace(/ /g, ""));
 
       if (passiv == activ) {
         alert.removeClass('alert-danger');
@@ -260,9 +263,9 @@ var calc_app = new Vue({
         alert.removeClass('alert-success');
 
         if (passiv > activ) {
-          alert.text('Пассив больше актива на ' + (passiv - activ).toString() + '! Сохранение не возможно!');
+          alert.text('Пассив больше актива на ' + parseFloat((passiv - activ).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + '! Сохранение не возможно!');
         } else {
-          alert.text('Актив больше пассива на ' + (activ - passiv).toString() + '! Сохранение не возможно!');
+          alert.text('Актив больше пассива на ' + parseFloat((activ - passiv).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + '! Сохранение не возможно!');
         }
 
         alert.addClass('alert-danger');

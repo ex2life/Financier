@@ -75,8 +75,6 @@
     <script src="/js/jquery.validate.min.js" defer></script>
     <script type="text/javascript" src="/js/additional-methods.min.js" defer></script>
     <script type="text/javascript" src="/js/cred_calc.js" defer></script>
-@endsection
-@section('modal')
     <div id="phpModal" class="modal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg ml-auto mr-auto" role="document">
             <div class="modal-content"><div class="modal-header">

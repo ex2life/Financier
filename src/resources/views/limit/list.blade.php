@@ -10,7 +10,7 @@
             <a class="mt-3 btn btn-light btn-lg col-10 offset-1 col-md-4 offset-md-8"
                href="{{route('credit_info')}}">Данные по кредиту</a>
             <a class="mt-3 btn btn-light btn-lg col-10 offset-1 col-md-4 offset-md-8"
-               href="{{route('credit_limit_list')}}">Оценка лимита кредита</a>
+               href="{{route('credit_limit_list')}}">Оценка вероятности одобрения</a>
             <a class="mt-3 btn btn-secondary btn-lg col-10 offset-1 col-md-4 offset-md-8"
                href="{{ route('index') }}">Назад</a>
         </div>

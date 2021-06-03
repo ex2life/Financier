@@ -10,7 +10,7 @@ services:
       - ${CERTBOT_CERTS_PATH}:${NGINX_SSL_CERTS_PATH}:ro
       - ${CERTBOT_WEBROOT_PATH}:${NGINX_SSL_WEBROOT_PATH}:ro
     ports:
-      - "8080:80"
+      - "80:80"
       - "443:443"
     links:
       - app

@@ -10,7 +10,7 @@ services:
       - ${CERTBOT_CERTS_PATH}:${NGINX_SSL_CERTS_PATH}:ro
       - ${CERTBOT_WEBROOT_PATH}:${NGINX_SSL_WEBROOT_PATH}:ro
     ports:
-      - "80:80"
+      - "8080:80"
       - "443:443"
     links:
       - app
@@ -49,7 +49,7 @@ services:
     links:
       - database:db
   composer:
-    image: composer:latest
+    image: composer:1.10.22
     volumes:
       - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
     working_dir: ${APP_PATH_CONTAINER}
